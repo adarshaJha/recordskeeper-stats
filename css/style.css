@@ -26,7 +26,22 @@
     outline: none;
     outline-offset: -2px;
 }
+.font55{
+	font-size: 55px;
+}
 
+.cardheading{
+	font-size : 18px;
+	margin-left:10px;
+    color: #22283a;
+}
+.card{
+	    background: white;
+    padding: 30px;
+    border-radius: 4px;
+    box-shadow: 0 3px 4px rgba(24,59,101,.37);
+    width: 330px;
+}
 .faucetcontainer{
 	margin-top : 10%;
 }
