@@ -1,0 +1,12 @@
+{
+  "name": "Recordskeeper-Statistics",
+  "version": "1.0.0",
+  "description": "Real time updates on Recordkeeper's blockchain statistics",
+  "main": "server.js",
+  "engines": {
+    "node": "*"
+  },
+  "dependencies": {
+    "restify": "6.0.1"
+  }
+}
