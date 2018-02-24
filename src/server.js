@@ -32,6 +32,8 @@ function getBlockInfo(req, res, next) {
                         'xrk_supply':xrk_supply,
                         'best_block_timestamp':results[0].block_time}
                     });
+            res.header('Content-Type', 'application/json');      
+            res.header('Access-Control-Allow-Origin: *');  
             res.json(result);
         }
       });

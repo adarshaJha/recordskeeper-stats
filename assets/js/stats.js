@@ -10,7 +10,26 @@
 
 $(document).ready(function(){
 		 // Animate loader off screen
-		   $(".se-pre-con").fadeOut("slow");  // fadeout the preloader
+           $(".se-pre-con").fadeOut("slow");  // fadeout the preloader
+        
+           $.ajax({
+            url: 'http://test-stats.recordskeeper.co/api/blockInfo',
+            type: 'GET',
+            dataType: 'json',
+            headers: {
+                'Access-Control-Allow-Origin': '*',
+                'Access-Control-Allow-Credentials': true,
+                'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+                'Access-Control-Allow-Headers': 'Content-Type',
+                'Content-Type':'application/json'
+            },
+            success: function (data, textStatus, xhr) {
+                console.log(data);
+            },
+            error: function (xhr, textStatus, errorThrown) {
+                console.log('Error in Operation',xhr);
+            }
+        });
 
 });
 
