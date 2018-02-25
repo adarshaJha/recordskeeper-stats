@@ -111,7 +111,7 @@ function getChartInfo(req, res, next) {
     connection.end();  
 }
 
-function gettxInfo(req, res, next) {
+function geTxInfo(req, res, next) {
     
     connection.connect(function(err) {
         if (err) throw err;
@@ -143,6 +143,8 @@ server.get('/blockInfo/', getBlockInfo);
 server.get('/pendingTx/', getPendingTx);
 server.get('/avgTime/', getAvgTime);
 server.get('/chart/', getChartInfo);
+server.get('/txCount/', geTxInfo);
+
 server.listen(8080, function() {
     console.log('%s listening at %s', server.name, server.url);
   });
