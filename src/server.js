@@ -10,14 +10,15 @@ var connection = mysql.createConnection({
   password : config.db_pass,
   database : config.db_name
 });
+
+connection.connect(function(err) {
+    if (err) throw err;
+    console.log('connected as id ' + connection.threadId);
+  });
  
 
 function getBlockInfo(req, res, next) {
-    
-    connection.connect(function(err) {
-        if (err) throw err;
-        console.log('connected as id ' + connection.threadId);
-      });
+
 
     connection.query('SELECT * FROM block_info ORDER BY id DESC LIMIT 1;', function (error, results, fields) {
         if (error){
@@ -39,15 +40,15 @@ function getBlockInfo(req, res, next) {
             res.json(result);
         }
       });
-    connection.end();  
+    // connection.end();  
 }
 
 function getAvgTime(req, res, next) {
     
-    connection.connect(function(err) {
-        if (err) throw err;
-        console.log('connected as id ' + connection.threadId);
-      });
+    // connection.connect(function(err) {
+    //     if (err) throw err;
+    //     console.log('connected as id ' + connection.threadId);
+    //   });
 
     connection.query('SELECT AVG(time_diff) FROM block_info WHERE created_at > DATE_SUB(NOW(), INTERVAL 1 DAY) ORDER BY id ASC;', function (error, results, fields) {
         if (error){
@@ -62,15 +63,15 @@ function getAvgTime(req, res, next) {
             res.json(result);
         }
       });
-    connection.end();  
+    // connection.end();  
 }
 
 function getChartInfo(req, res, next) {
     
-    connection.connect(function(err) {
-        if (err) throw err;
-        console.log('connected as id ' + connection.threadId);
-      });
+    // connection.connect(function(err) {
+    //     if (err) throw err;
+    //     console.log('connected as id ' + connection.threadId);
+    //   });
 
     connection.query('SELECT * FROM chart_values ORDER BY id DESC LIMIT 7;', function (error, results, fields) {
         if (error){
@@ -85,15 +86,15 @@ function getChartInfo(req, res, next) {
             res.json(result);
         }
       });
-    connection.end();  
+    // connection.end();  
 }
 
 function geTxInfo(req, res, next) {
     
-    connection.connect(function(err) {
-        if (err) throw err;
-        console.log('connected as id ' + connection.threadId);
-      });
+    // connection.connect(function(err) {
+    //     if (err) throw err;
+    //     console.log('connected as id ' + connection.threadId);
+    //   });
 
     connection.query('SELECT * FROM transaction_info ORDER BY id DESC LIMIT 1;', function (error, results, fields) {
         if (error){
@@ -108,7 +109,7 @@ function geTxInfo(req, res, next) {
             res.json(result);
         }
       });
-    connection.end();  
+    // connection.end();  
 }
 
 function getPendingTx(req, res, next){
