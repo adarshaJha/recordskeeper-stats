@@ -11,10 +11,13 @@
 $(document).ready(function(){
 		 // Animate loader off screen
            $(".se-pre-con").fadeOut("slow");  // fadeout the preloader
-           getBlockInfo();
-           getPendingTx();
-           getAverageTime();
-           getChartData();
+           
+           setInterval(function() {
+                getBlockInfo();
+                getPendingTx();
+                getAverageTime();
+                getChartData();
+            }, 10000);
 
 });
 
@@ -32,24 +35,13 @@ function getBlockInfo(){
         },
         success: function (data, textStatus, xhr) {
             console.log(data);
-        },
-        error: function (xhr, textStatus, errorThrown) {
-            console.log('Error in Operation',xhr);
-
-            var data = [
-                {
-                    "status": "success",
-                    "data": {
-                        "best_block": 20758,
-                        "xrk_supply": 5020758000000000,
-                        "best_block_timestamp": 1519480950
-                    }
-                }
-            ];
             jQuery.parseJSON(JSON.stringify(data));
             $("#best_block").html("#"+data[0].data.best_block);
             $("#best_block_time").html(data[0].data.best_block_timestamp);
             $("#xrk_supply").html(data[0].data.xrk_supply/100000000);
+        },
+        error: function (xhr, textStatus, errorThrown) {
+            console.log('Error in Operation',xhr);
         }
     });
 }
@@ -68,19 +60,21 @@ function getPendingTx(){
         },
         success: function (data, textStatus, xhr) {
             console.log(data);
+            jQuery.parseJSON(JSON.stringify(data));
+            $("#pending_tx_count").html("#"+data.result.size);
         },
         error: function (xhr, textStatus, errorThrown) {
             console.log('Error in Operation',xhr);
-            var data = {
-                "result": {
-                    "size": 0,
-                    "bytes": 0
-                },
-                "error": null,
-                "id": 1
-            };
-            jQuery.parseJSON(JSON.stringify(data));
-            $("#pending_tx_count").html("#"+data.result.size);
+            // var data = {
+            //     "result": {
+            //         "size": 0,
+            //         "bytes": 0
+            //     },
+            //     "error": null,
+            //     "id": 1
+            // };
+            // jQuery.parseJSON(JSON.stringify(data));
+            // $("#pending_tx_count").html("#"+data.result.size);
         }
     });
 }
@@ -98,28 +92,30 @@ function getTxCount(){
         },
         success: function (data, textStatus, xhr) {
             console.log(data);
+            jQuery.parseJSON(JSON.stringify(data));
+            $("#tx_count").html("#"+data[0].results.tx);
         },
         error: function (xhr, textStatus, errorThrown) {
             console.log('Error in Operation',xhr);
-            var data = [
-                {
-                    "status": "success",
-                    "data": {
-                        "results": [
-                            {
-                                "id": 5,
-                                "tx": 21711,
-                                "txin": 43185,
-                                "txout": 42543,
-                                "block": 21026,
-                                "created_at": "2018-02-24T08:58:49.000Z"
-                            }
-                        ]
-                    }
-                }
-            ];
-            jQuery.parseJSON(JSON.stringify(data));
-            $("#tx_count").html("#"+data[0].results.tx);
+            // var data = [
+            //     {
+            //         "status": "success",
+            //         "data": {
+            //             "results": [
+            //                 {
+            //                     "id": 5,
+            //                     "tx": 21711,
+            //                     "txin": 43185,
+            //                     "txout": 42543,
+            //                     "block": 21026,
+            //                     "created_at": "2018-02-24T08:58:49.000Z"
+            //                 }
+            //             ]
+            //         }
+            //     }
+            // ];
+            // jQuery.parseJSON(JSON.stringify(data));
+            // $("#tx_count").html("#"+data[0].results.tx);
         }
     });
 }
@@ -138,17 +134,19 @@ function getAverageTime(){
         },
         success: function (data, textStatus, xhr) {
             console.log(data);
+            jQuery.parseJSON(JSON.stringify(data));
+            $("#avg_time").html(Math.round(data[0].data.avg_time)+" s");
         },
         error: function (xhr, textStatus, errorThrown) {
             console.log('Error in Operation',xhr);
-            var data = [{
-                "status": "success",
-                "data": {
-                    "avg_time": 35.05858310626703
-                }
-            }];
-            jQuery.parseJSON(JSON.stringify(data));
-            $("#avg_time").html(Math.round(data[0].data.avg_time)+" s");
+            // var data = [{
+            //     "status": "success",
+            //     "data": {
+            //         "avg_time": 35.05858310626703
+            //     }
+            // }];
+            // jQuery.parseJSON(JSON.stringify(data));
+            // $("#avg_time").html(Math.round(data[0].data.avg_time)+" s");
         }
     });
 }
@@ -167,52 +165,53 @@ function getChartData(){
         },
         success: function (data, textStatus, xhr) {
             console.log(data);
+            plotCharts(jQuery.parseJSON(JSON.stringify(data)));
         },
         error: function (xhr, textStatus, errorThrown) {
             console.log('Error in Operation',xhr);
-            var data = [{
-                "status": "success",
-                "data": {
-                    "results": [{
-                        "id": 35,
-                        "difficulty": 0.00781238,
-                        "hash_rate": 0.000223210857142857,
-                        "created_at": "2018-02-24T14:40:04.000Z"
-                    }, {
-                        "id": 34,
-                        "difficulty": 0.00781238,
-                        "hash_rate": 0.000223210857142857,
-                        "created_at": "2018-02-24T14:35:03.000Z"
-                    }, {
-                        "id": 33,
-                        "difficulty": 0.00781238,
-                        "hash_rate": 0.0002232999102034402,
-                        "created_at": "2018-02-24T14:30:04.000Z"
-                    }, {
-                        "id": 32,
-                        "difficulty": 0.00781238,
-                        "hash_rate": 0.0002235063111324432,
-                        "created_at": "2018-02-24T14:25:04.000Z"
-                    }, {
-                        "id": 31,
-                        "difficulty": 0.00781238,
-                        "hash_rate": 0.000223210549520294,
-                        "created_at": "2018-02-24T14:20:04.000Z"
-                    }, {
-                        "id": 30,
-                        "difficulty": 0.00781238,
-                        "hash_rate": 0.000223213405932204,
-                        "created_at": "2018-02-24T14:15:04.000Z"
-                    }, {
-                        "id": 29,
-                        "difficulty": 0.00781238,
-                        "hash_rate": 0.00022321085713210,
-                        "created_at": "2018-02-24T14:10:04.000Z"
-                    }]
-                }
-            }];
+            // var data = [{
+            //     "status": "success",
+            //     "data": {
+            //         "results": [{
+            //             "id": 35,
+            //             "difficulty": 0.00781238,
+            //             "hash_rate": 0.000223210857142857,
+            //             "created_at": "2018-02-24T14:40:04.000Z"
+            //         }, {
+            //             "id": 34,
+            //             "difficulty": 0.00781238,
+            //             "hash_rate": 0.000223210857142857,
+            //             "created_at": "2018-02-24T14:35:03.000Z"
+            //         }, {
+            //             "id": 33,
+            //             "difficulty": 0.00781238,
+            //             "hash_rate": 0.0002232999102034402,
+            //             "created_at": "2018-02-24T14:30:04.000Z"
+            //         }, {
+            //             "id": 32,
+            //             "difficulty": 0.00781238,
+            //             "hash_rate": 0.0002235063111324432,
+            //             "created_at": "2018-02-24T14:25:04.000Z"
+            //         }, {
+            //             "id": 31,
+            //             "difficulty": 0.00781238,
+            //             "hash_rate": 0.000223210549520294,
+            //             "created_at": "2018-02-24T14:20:04.000Z"
+            //         }, {
+            //             "id": 30,
+            //             "difficulty": 0.00781238,
+            //             "hash_rate": 0.000223213405932204,
+            //             "created_at": "2018-02-24T14:15:04.000Z"
+            //         }, {
+            //             "id": 29,
+            //             "difficulty": 0.00781238,
+            //             "hash_rate": 0.00022321085713210,
+            //             "created_at": "2018-02-24T14:10:04.000Z"
+            //         }]
+            //     }
+            // }];
             
-            plotCharts(jQuery.parseJSON(JSON.stringify(data)));
+            // plotCharts(jQuery.parseJSON(JSON.stringify(data)));
             // $("#").html("#"+data[0].data.avg_time);
         }   
     });
