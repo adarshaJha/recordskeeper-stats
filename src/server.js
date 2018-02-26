@@ -26,11 +26,13 @@ function getBlockInfo(req, res, next) {
         }
         else{
             var result = [];
+            var d = new Date(0); // The 0 there is the key, which sets the date to the epoch
+            d.setUTCSeconds(results[0].block_time);
             var xrk_supply = (config.mining_reward * results[0].best_block) + config.premined_quant;
             result.push({'status':'success',
                         'data':{'best_block':results[0].best_block,
                         'xrk_supply':xrk_supply,
-                        'best_block_timestamp':results[0].block_time}
+                        'best_block_timestamp':d.getHours()+':'+d.getMinutes()+':'+d.getSeconds()}
                     });
             res.header('Content-Type', 'application/json');      
             res.header('Access-Control-Allow-Origin: *');  
