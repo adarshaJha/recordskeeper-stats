@@ -11,6 +11,7 @@
 $(document).ready(function(){
 		 // Animate loader off screen
            $(".se-pre-con").fadeOut("slow");  // fadeout the preloader
+           base_url = 'http://35.171.145.239:8080';
            
            setInterval(function() {
                 getBlockInfo();
@@ -23,7 +24,7 @@ $(document).ready(function(){
 
 function getBlockInfo(){
     $.ajax({
-        url: 'http://test-stats.recordskeeper.co/api/blockInfo',
+        url: base_url+'/blockInfo',
         type: 'GET',
         dataType: 'json',
         headers: {
@@ -48,7 +49,7 @@ function getBlockInfo(){
 
 function getPendingTx(){
     $.ajax({
-        url: 'http://test-stats.recordskeeper.co/api/pendingTx',
+        url: base_url+'/pendingTx',
         type: 'GET',
         dataType: 'json',
         headers: {
@@ -65,22 +66,12 @@ function getPendingTx(){
         },
         error: function (xhr, textStatus, errorThrown) {
             console.log('Error in Operation',xhr);
-            // var data = {
-            //     "result": {
-            //         "size": 0,
-            //         "bytes": 0
-            //     },
-            //     "error": null,
-            //     "id": 1
-            // };
-            // jQuery.parseJSON(JSON.stringify(data));
-            // $("#pending_tx_count").html("#"+data.result.size);
         }
     });
 }
 function getTxCount(){
     $.ajax({
-        url: 'http://test-stats.recordskeeper.co/api/txCount',
+        url: base_url+'/txCount',
         type: 'GET',
         dataType: 'json',
         headers: {
@@ -97,32 +88,13 @@ function getTxCount(){
         },
         error: function (xhr, textStatus, errorThrown) {
             console.log('Error in Operation',xhr);
-            // var data = [
-            //     {
-            //         "status": "success",
-            //         "data": {
-            //             "results": [
-            //                 {
-            //                     "id": 5,
-            //                     "tx": 21711,
-            //                     "txin": 43185,
-            //                     "txout": 42543,
-            //                     "block": 21026,
-            //                     "created_at": "2018-02-24T08:58:49.000Z"
-            //                 }
-            //             ]
-            //         }
-            //     }
-            // ];
-            // jQuery.parseJSON(JSON.stringify(data));
-            // $("#tx_count").html("#"+data[0].results.tx);
         }
     });
 }
 
 function getAverageTime(){
     $.ajax({
-        url: 'http://test-stats.recordskeeper.co/api/avgTime',
+        url: base_url+'/avgTime',
         type: 'GET',
         dataType: 'json',
         headers: {
@@ -139,21 +111,13 @@ function getAverageTime(){
         },
         error: function (xhr, textStatus, errorThrown) {
             console.log('Error in Operation',xhr);
-            // var data = [{
-            //     "status": "success",
-            //     "data": {
-            //         "avg_time": 35.05858310626703
-            //     }
-            // }];
-            // jQuery.parseJSON(JSON.stringify(data));
-            // $("#avg_time").html(Math.round(data[0].data.avg_time)+" s");
         }
     });
 }
 
 function getChartData(){
     $.ajax({
-        url: 'http://test-stats.recordskeeper.co/api/chart',
+        url: base_url+'/chart',
         type: 'GET',
         dataType: 'json',
         headers: {
@@ -169,50 +133,6 @@ function getChartData(){
         },
         error: function (xhr, textStatus, errorThrown) {
             console.log('Error in Operation',xhr);
-            // var data = [{
-            //     "status": "success",
-            //     "data": {
-            //         "results": [{
-            //             "id": 35,
-            //             "difficulty": 0.00781238,
-            //             "hash_rate": 0.000223210857142857,
-            //             "created_at": "2018-02-24T14:40:04.000Z"
-            //         }, {
-            //             "id": 34,
-            //             "difficulty": 0.00781238,
-            //             "hash_rate": 0.000223210857142857,
-            //             "created_at": "2018-02-24T14:35:03.000Z"
-            //         }, {
-            //             "id": 33,
-            //             "difficulty": 0.00781238,
-            //             "hash_rate": 0.0002232999102034402,
-            //             "created_at": "2018-02-24T14:30:04.000Z"
-            //         }, {
-            //             "id": 32,
-            //             "difficulty": 0.00781238,
-            //             "hash_rate": 0.0002235063111324432,
-            //             "created_at": "2018-02-24T14:25:04.000Z"
-            //         }, {
-            //             "id": 31,
-            //             "difficulty": 0.00781238,
-            //             "hash_rate": 0.000223210549520294,
-            //             "created_at": "2018-02-24T14:20:04.000Z"
-            //         }, {
-            //             "id": 30,
-            //             "difficulty": 0.00781238,
-            //             "hash_rate": 0.000223213405932204,
-            //             "created_at": "2018-02-24T14:15:04.000Z"
-            //         }, {
-            //             "id": 29,
-            //             "difficulty": 0.00781238,
-            //             "hash_rate": 0.00022321085713210,
-            //             "created_at": "2018-02-24T14:10:04.000Z"
-            //         }]
-            //     }
-            // }];
-            
-            // plotCharts(jQuery.parseJSON(JSON.stringify(data)));
-            // $("#").html("#"+data[0].data.avg_time);
         }   
     });
 }
