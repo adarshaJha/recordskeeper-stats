@@ -8,6 +8,7 @@ import config as cfg
 
 def main():
   # Open database connection
+  db = MySQLdb.connect(cfg.mysql['host'], cfg.mysql['user'], cfg.mysql['password'], cfg.mysql['database'])
   # prepare a cursor object using cursor() method
   cursor = db.cursor()
   # SQL query to SELECT records from the database.
