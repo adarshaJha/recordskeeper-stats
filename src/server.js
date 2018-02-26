@@ -63,31 +63,6 @@ function getAvgTime(req, res, next) {
     connection.end();  
 }
 
-function getPendingTx(req, res, next){
-    var auth = 'Basic ' + Buffer.from(config.rk_user + ':' + config.rk_pass).toString('base64');
-    var req = unirest("POST", config.rk_host+':'+config.rk_port);
-
-    req.headers({
-    "cache-control": "no-cache",
-    "authorization": auth,
-    "content-type": "application/json"
-    });
-
-    req.type("json");
-    req.send({
-    "method": "getmempoolinfo",
-    "id": 1,
-    "chain_name": config.rk_chain
-    });
-
-    req.end(function (response) {
-    if (response.error){
-        res.json({'status':'failed','message':'Error while fetching data'});
-        throw new Error(res.error);
-    } else res.json(response.body);
-    });
-}
-
 function getChartInfo(req, res, next) {
     
     connection.connect(function(err) {
@@ -134,7 +109,30 @@ function geTxInfo(req, res, next) {
     connection.end();  
 }
 
+function getPendingTx(req, res, next){
+    var auth = 'Basic ' + Buffer.from(config.rk_user + ':' + config.rk_pass).toString('base64');
+    var req = unirest("POST", config.rk_host+':'+config.rk_port);
 
+    req.headers({
+    "cache-control": "no-cache",
+    "authorization": auth,
+    "content-type": "application/json"
+    });
+
+    req.type("json");
+    req.send({
+    "method": "getmempoolinfo",
+    "id": 1,
+    "chain_name": config.rk_chain
+    });
+
+    req.end(function (response) {
+    if (response.error){
+        res.json({'status':'failed','message':'Error while fetching data'});
+        throw new Error(res.error);
+    } else res.json(response.body);
+    });
+}
 
 var server = restify.createServer();
 server.use(bodyParser.json());

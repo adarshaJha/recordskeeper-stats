@@ -31,9 +31,10 @@
 }
 
 .cardheading{
-	font-size : 18px;
-	margin-left:10px;
+    font-size: 14px;
+    margin-left: 10px;
     color: #22283a;
+    font-weight: 400;
 }
 .card{
 	    background: white;
@@ -42,6 +43,30 @@
     box-shadow: 0 3px 4px rgba(24,59,101,.37);
     /* width: 330px;     */
 }
+.mbt{
+    margin-bottom: 15px;
+    margin-top: 15px;
+
+}
+i.fas.fa-th-large.font30 {
+    color: #274673;
+}
+
+i.fas.fa-stopwatch.font30 {
+    color: #274672;
+}
+i.fas.fa-hourglass-half.font30, i.fas.fa-hashtag.font30, i.fas.fa-list-ul.font30,i.fas.fa-clock.font30
+{
+    color: #274672;
+}
+.heading{
+    font-size: 17px;
+    font-weight: 500;
+    color: #22283a;
+}
+.margintop30{
+    margin-top: 30px;
+}
 .faucetcontainer{
 	margin-top : 10%;
 }
@@ -49,6 +74,9 @@
 	font-size: 15px;
     font-weight: 400;
     margin-top:15px;
+}
+.font30{
+    font-size: 30px;
 }
 body {
     min-height: 100%;
@@ -82,7 +110,7 @@ body, textarea, input, select, option, button {
 
 
 
-@media only screen and (max-width: 93.75em){}
+@media only screen and (max-width: 93.75em){
 		#nav {
 		    right: 20px;
 		}
