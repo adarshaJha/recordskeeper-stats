@@ -99,7 +99,7 @@ function getTxCount(){
         success: function (data, textStatus, xhr) {
             console.log(data);
             jQuery.parseJSON(JSON.stringify(data));
-            $("#tx_count").html("#"+data[0].results.tx);
+            $("#tx_count").html("#"+data[0].data.results[0].tx);
         },
         error: function (xhr, textStatus, errorThrown) {
             console.log('Error in Operation',xhr);
