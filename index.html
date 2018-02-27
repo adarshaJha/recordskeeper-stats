@@ -28,9 +28,26 @@
 				<p id="logo">
 					<img src="assets/images/logo.png">
 				</p>
-				<nav id="skip">
-					
-				</nav>
+				<nav id="nav">
+                    <ul>
+                        <!-- <li class="sub"><a accesskey="1" href="./">Tosh-2 <span>(Switch Device)</span></a> <em>(1)</em>
+                        <ul>
+                            <li><a href="./">Toshendra</a></li>
+                            <li class="active"><a href="./">Tosh-2</a></li>
+                            <li class="a"><a href="./">Add Device</a></li>
+                        </ul> -->
+                        <div id="togglecont">
+                            <input class="tgl tgl-light" id="cb1" type="checkbox"/>
+                           <label class="tgl-btn" for="cb1"></label>
+                        </div>
+                        <span >
+                            <label id="togglecontlabel">TestNetwork</label>
+                        </span>
+                        
+                    
+                </ul>
+                
+            </nav>
 				
 			</header>
 <!-- header ends here  -->
@@ -97,7 +114,7 @@
         		</div>
         	</div>
 			<div class="col-sm-6">
-			<h2 class="heading">Hast Rate</h2>
+			<h2 class="heading">Hash Rate</h2>
         	    <div class="cardss">
 				<canvas id="hashChart" width="1000" height="200"></canvas>
         		</div>

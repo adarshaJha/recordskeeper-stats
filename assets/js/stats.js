@@ -22,10 +22,34 @@ $(document).ready(function(){
 
 });
 
+function networkToggle(){
+ $('.tgl-btn').click(function(){
+        ToggleNetwork();
+    });
+}
+
+// ToggleNetwork() function here to allow users to change the network on toggle
+// params : 
+// Return : NULL
+
+function ToggleNetwork(){
+
+        if($('#cb1').is(':checked'))
+            {
+             localstorage.network = "main";
+
+            }
+            else
+            {
+             localstorage.network = "test";
+            }
+
+    }
+
 function getBlockInfo(){
     $.ajax({
         url: base_url+'/blockInfo',
-        type: 'GET',
+        type: 'POST',
         dataType: 'json',
         headers: {
             'Access-Control-Allow-Origin': '*',
@@ -74,7 +98,7 @@ function getPendingTx(){
 function getTxCount(){
     $.ajax({
         url: base_url+'/txCount',
-        type: 'GET',
+        type: 'POST',
         dataType: 'json',
         headers: {
             'Access-Control-Allow-Origin': '*',
@@ -97,7 +121,7 @@ function getTxCount(){
 function getAverageTime(){
     $.ajax({
         url: base_url+'/avgTime',
-        type: 'GET',
+        type: 'POST',
         dataType: 'json',
         headers: {
             'Access-Control-Allow-Origin': '*',
@@ -120,7 +144,7 @@ function getAverageTime(){
 function getChartData(){
     $.ajax({
         url: base_url+'/chart',
-        type: 'GET',
+        type: 'POST',
         dataType: 'json',
         headers: {
             'Access-Control-Allow-Origin': '*',
