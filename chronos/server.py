@@ -6,6 +6,14 @@ import requests
 from json_encoder import json
 from requests.auth import HTTPBasicAuth
 import config as cfg
+import sys
+
+network = sys.argv[1]
+
+if network=="main":
+  import config_main as cfg
+else: 
+  import config_test as cfg
 
 def main():
   # Open database connection
@@ -72,7 +80,6 @@ def main():
      cursor.execute(sql4)
      row = cursor.fetchone()
      last_block = int(row[0])
-     print(last_block)
      block_diff = latest_block-last_block
 
      if block_diff == 1:
@@ -90,7 +97,6 @@ def main():
 
       for x in range(1,block_diff):
         last_block = last_block + 1
-        print(last_block)
         payload3 = [
 
             {

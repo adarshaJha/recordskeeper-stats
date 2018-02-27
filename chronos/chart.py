@@ -6,6 +6,15 @@ import requests
 from json_encoder import json
 import config as cfg
 
+import sys
+
+network = sys.argv[1]
+
+if network=="main":
+  import config_main as cfg
+else: 
+  import config_test as cfg
+
 def main():
   # Open database connection
   db = MySQLdb.connect(cfg.mysql['host'], cfg.mysql['user'], cfg.mysql['password'], cfg.mysql['db'])
