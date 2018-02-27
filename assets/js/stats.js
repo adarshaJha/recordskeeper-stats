@@ -18,6 +18,7 @@ $(document).ready(function(){
                 getPendingTx();
                 getAverageTime();
                 getChartData();
+                getTxCount()
             }, 10000);
 
 });
