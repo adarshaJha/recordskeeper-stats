@@ -38,11 +38,13 @@ function ToggleNetwork(){
         if($('#cb1').is(':checked'))
             {
              localstorage.network = "main";
+             $("#togglecontlabel").html(Mainnet);
 
             }
             else
             {
              localstorage.network = "test";
+             $("#togglecontlabel").html(Testnet);
             }
 
     }
