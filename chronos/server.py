@@ -5,7 +5,6 @@ import MySQLdb
 import requests
 from json_encoder import json
 from requests.auth import HTTPBasicAuth
-import config as cfg
 import sys
 
 network = sys.argv[1]
@@ -45,7 +44,7 @@ def main():
           "params": [str(latest_block)],
           "jsonrpc": "2.0",
           "id": "curltext",
-          "chain_name": "recordskeeper-test"
+          "chain_name": chain_name
           }
 
   ]
@@ -104,7 +103,7 @@ def main():
             "params": [str(last_block)],
             "jsonrpc": "2.0",
             "id": "curltext",
-            "chain_name": "recordskeeper-test"
+            "chain_name": chain_name
             }
 
           ]

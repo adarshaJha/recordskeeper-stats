@@ -4,8 +4,6 @@ import MySQLdb
 
 import requests
 from json_encoder import json
-import config as cfg
-
 import sys
 
 network = sys.argv[1]
