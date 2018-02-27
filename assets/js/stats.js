@@ -11,7 +11,7 @@
 $(document).ready(function(){
 		 // Animate loader off screen
            $(".se-pre-con").fadeOut("slow");  // fadeout the preloader
-           base_url = 'http://35.171.145.239:8080';
+           base_url = 'http://stats.recordskeeper.co/api';
            
            setInterval(function() {
                 getBlockInfo();
@@ -46,18 +46,14 @@ function ToggleNetwork(){
 
     }
 
-function getBlockInfo(){
+function getBlockInfo(){      
+    var body = {"network":localStorage.network};
     $.ajax({
-        url: base_url+'/blockInfo',
-        type: 'POST',
+        type: "POST",
+        url: base_url+"/blockInfo/",
+        crossDomain: true,
+        data: JSON.stringify(body),
         dataType: 'json',
-        headers: {
-            'Access-Control-Allow-Origin': '*',
-            'Access-Control-Allow-Credentials': true,
-            'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
-            'Access-Control-Allow-Headers': 'Content-Type',
-            'Content-Type':'application/json'
-        },
         success: function (data, textStatus, xhr) {
             console.log(data);
             jQuery.parseJSON(JSON.stringify(data));
@@ -74,17 +70,11 @@ function getBlockInfo(){
 function getPendingTx(){
     var body = {'network':localStorage.network};
     $.ajax({
-        url: base_url+'/pendingTx',
-        type: 'POST',
-        data:body,
+        type: "POST",
+        url: base_url+"/pendingTx/",
+        crossDomain: true,
+        data: JSON.stringify(body),
         dataType: 'json',
-        headers: {
-            'Access-Control-Allow-Origin': '*',
-            'Access-Control-Allow-Credentials': true,
-            'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
-            'Access-Control-Allow-Headers': 'Content-Type',
-            'Content-Type':'application/json'
-        },
         success: function (data, textStatus, xhr) {
             console.log(data);
             jQuery.parseJSON(JSON.stringify(data));
@@ -96,17 +86,13 @@ function getPendingTx(){
     });
 }
 function getTxCount(){
+    var body = {'network':localStorage.network};
     $.ajax({
-        url: base_url+'/txCount',
-        type: 'POST',
+        type: "POST",
+        url: base_url+"/txCount/",
+        crossDomain: true,
+        data: JSON.stringify(body),
         dataType: 'json',
-        headers: {
-            'Access-Control-Allow-Origin': '*',
-            'Access-Control-Allow-Credentials': true,
-            'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
-            'Access-Control-Allow-Headers': 'Content-Type',
-            'Content-Type':'application/json'
-        },
         success: function (data, textStatus, xhr) {
             console.log(data);
             jQuery.parseJSON(JSON.stringify(data));
@@ -119,17 +105,13 @@ function getTxCount(){
 }
 
 function getAverageTime(){
+    var body = {'network':localStorage.network};
     $.ajax({
-        url: base_url+'/avgTime',
-        type: 'POST',
+        type: "POST",
+        url: base_url+"/avgTime/",
+        crossDomain: true,
+        data: JSON.stringify(body),
         dataType: 'json',
-        headers: {
-            'Access-Control-Allow-Origin': '*',
-            'Access-Control-Allow-Credentials': true,
-            'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
-            'Access-Control-Allow-Headers': 'Content-Type',
-            'Content-Type':'application/json'
-        },
         success: function (data, textStatus, xhr) {
             console.log(data);
             jQuery.parseJSON(JSON.stringify(data));
@@ -142,17 +124,13 @@ function getAverageTime(){
 }
 
 function getChartData(){
+    var body = {'network':localStorage.network};
     $.ajax({
-        url: base_url+'/chart',
-        type: 'POST',
+        type: "POST",
+        url: base_url+"/chart/",
+        crossDomain: true,
+        data: JSON.stringify(body),
         dataType: 'json',
-        headers: {
-            'Access-Control-Allow-Origin': '*',
-            'Access-Control-Allow-Credentials': true,
-            'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
-            'Access-Control-Allow-Headers': 'Content-Type',
-            'Content-Type':'application/json'
-        },
         success: function (data, textStatus, xhr) {
             console.log(data);
             plotCharts(jQuery.parseJSON(JSON.stringify(data)));
