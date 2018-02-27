@@ -190,10 +190,10 @@ function getPendingTx(req, res, next){
 var server = restify.createServer();
 server.use(bodyParser.json());
 server.use(bodyParser.urlencoded({extended: true}));
-// server.post('/blockInfo/', getBlockInfo);
-// server.post('/pendingTx/', getPendingTx);
-// server.post('/avgTime/', getAvgTime);
-// server.post('/chart/', getChartInfo);
+server.post('/blockInfo/', getBlockInfo);
+server.post('/pendingTx/', getPendingTx);
+server.post('/avgTime/', getAvgTime);
+server.post('/chart/', getChartInfo);
 server.post('/txCount/', geTxInfo);
 
 server.listen(8080, function() {
