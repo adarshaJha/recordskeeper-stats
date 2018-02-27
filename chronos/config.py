@@ -4,5 +4,7 @@ mysql = {'host': '',
          'db': ''}
 rpc =   {
          'user': '',
-         'password': ''
+         'password': '',
+         'url': '',
+         'chain_name':''
          }

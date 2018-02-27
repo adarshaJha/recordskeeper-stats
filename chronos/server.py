@@ -10,17 +10,18 @@ import config as cfg
 def main():
   # Open database connection
   db = MySQLdb.connect(cfg.mysql['host'], cfg.mysql['user'], cfg.mysql['password'], cfg.mysql['db'])
-  url = "http://35.170.155.89:8378"
+  url = cfg.rpc['url'] 
   headers = { 'content-type': 'application/json'}
   user= cfg.rpc['user'] 
   password = cfg.rpc['password']
+  chain_name = str(cfg.rpc['chain_name'])
   payload = [
          {
           "method": "getinfo",
           "params": [],
           "jsonrpc": "2.0",
           "id": "curltext",
-          "chain_name": "recordskeeper-test"
+          "chain_name": chain_name
           }
 
   ]
