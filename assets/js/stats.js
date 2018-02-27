@@ -48,9 +48,11 @@ function getBlockInfo(){
 }
 
 function getPendingTx(){
+    var body = {'network':localStorage.network};
     $.ajax({
         url: base_url+'/pendingTx',
-        type: 'GET',
+        type: 'POST',
+        data:body,
         dataType: 'json',
         headers: {
             'Access-Control-Allow-Origin': '*',

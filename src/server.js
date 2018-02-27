@@ -1,23 +1,45 @@
 var restify = require('restify');
 const bodyParser = require('body-parser');
-var config = require('../config.json');
 var mysql      = require('mysql');
 var unirest = require('unirest');
+var config;
+var connection;
 
-var connection = mysql.createConnection({
-  host     : config.db_host,
-  user     : config.db_user,
-  password : config.db_pass,
-  database : config.db_name
-});
 
-connection.connect(function(err) {
-    if (err) throw err;
-    console.log('connected as id ' + connection.threadId);
-  });
+
+function setConnection(network){
+    config = getConfig(network);
+    var conn = mysql.createConnection({
+      host     : config.db_host,
+      user     : config.db_user,
+      password : config.db_pass,
+      database : config.db_name
+    });
+    return conn;
+}
+
+
+function getConfig(newtork){
+    if(network = 'test'){
+        return require('../testnet_config.json');
+    }else{
+        return require('../mainnet_config.json');
+    }
+}
  
 
 function getBlockInfo(req, res, next) {
+
+    if (!req.method === 'POST') {
+        return next();
+    }
+    var network = req.body.network;
+    connection = setConnection(network);
+
+    connection.connect(function(err) {
+        if (err) throw err;
+        console.log('connected as id ' + connection.threadId);
+    });
 
 
     connection.query('SELECT * FROM block_info ORDER BY id DESC LIMIT 1;', function (error, results, fields) {
@@ -40,15 +62,22 @@ function getBlockInfo(req, res, next) {
             res.json(result);
         }
       });
-    // connection.end();  
+    connection.end();  
 }
 
 function getAvgTime(req, res, next) {
     
-    // connection.connect(function(err) {
-    //     if (err) throw err;
-    //     console.log('connected as id ' + connection.threadId);
-    //   });
+
+    if (!req.method === 'POST') {
+        return next();
+    }
+    var network = req.body.network;
+    connection = setConnection(network);
+
+    connection.connect(function(err) {
+        if (err) throw err;
+        console.log('connected as id ' + connection.threadId);
+    });
 
     connection.query('SELECT AVG(time_diff) FROM block_info WHERE created_at > DATE_SUB(NOW(), INTERVAL 1 DAY) ORDER BY id ASC;', function (error, results, fields) {
         if (error){
@@ -63,15 +92,21 @@ function getAvgTime(req, res, next) {
             res.json(result);
         }
       });
-    // connection.end();  
+    connection.end();  
 }
 
 function getChartInfo(req, res, next) {
     
-    // connection.connect(function(err) {
-    //     if (err) throw err;
-    //     console.log('connected as id ' + connection.threadId);
-    //   });
+    if (!req.method === 'POST') {
+        return next();
+    }
+    var network = req.body.network;
+    connection = setConnection(network);
+
+    connection.connect(function(err) {
+        if (err) throw err;
+        console.log('connected as id ' + connection.threadId);
+    });
 
     connection.query('SELECT * FROM chart_values ORDER BY id DESC LIMIT 7;', function (error, results, fields) {
         if (error){
@@ -86,15 +121,23 @@ function getChartInfo(req, res, next) {
             res.json(result);
         }
       });
-    // connection.end();  
+    connection.end();  
 }
 
 function geTxInfo(req, res, next) {
     
-    // connection.connect(function(err) {
-    //     if (err) throw err;
-    //     console.log('connected as id ' + connection.threadId);
-    //   });
+    if (!req.method === 'POST') {
+        return next();
+    }
+
+    var network = req.body.network;
+    connection = setConnection(network);
+
+    connection.connect(function(err) {
+        if (err) throw err;
+        console.log('connected as id ' + connection.threadId);
+    });
+
 
     connection.query('SELECT * FROM transaction_info ORDER BY id DESC LIMIT 1;', function (error, results, fields) {
         if (error){
@@ -109,10 +152,17 @@ function geTxInfo(req, res, next) {
             res.json(result);
         }
       });
-    // connection.end();  
+    connection.end();  
 }
 
 function getPendingTx(req, res, next){
+    
+    if (!req.method === 'POST') {
+        return next();
+    }
+    var network = req.body.network;
+    config = getConfig(network);
+
     var auth = 'Basic ' + Buffer.from(config.rk_user + ':' + config.rk_pass).toString('base64');
     var req = unirest("POST", config.rk_host+':'+config.rk_port);
 
@@ -140,11 +190,11 @@ function getPendingTx(req, res, next){
 var server = restify.createServer();
 server.use(bodyParser.json());
 server.use(bodyParser.urlencoded({extended: true}));
-server.get('/blockInfo/', getBlockInfo);
-server.get('/pendingTx/', getPendingTx);
-server.get('/avgTime/', getAvgTime);
-server.get('/chart/', getChartInfo);
-server.get('/txCount/', geTxInfo);
+// server.post('/blockInfo/', getBlockInfo);
+// server.post('/pendingTx/', getPendingTx);
+// server.post('/avgTime/', getAvgTime);
+// server.post('/chart/', getChartInfo);
+server.post('/txCount/', geTxInfo);
 
 server.listen(8080, function() {
     console.log('%s listening at %s', server.name, server.url);
