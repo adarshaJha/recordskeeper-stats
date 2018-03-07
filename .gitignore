@@ -1,3 +1,6 @@
+chronos/config_main.py
+chronos/config_test.py
+
 # Logs
 logs
 *.log
