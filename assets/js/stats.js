@@ -1,53 +1,111 @@
-
-/////////////////////////////////
-   // Recordskeeper Stats 	  //
-  // Shuchi Tyagi			 //
- // Toshblocks innovations  //
-/////////////////////////////
-
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
+var mainNetColor = "#212739";
+var testNetColor = "#54b2ce";
+var eventStream;
 
 $(document).ready(function(){
-		 // Animate loader off screen
-           $(".se-pre-con").fadeOut("slow");  // fadeout the preloader
-           base_url = 'http://stats.recordskeeper.co/api';
-           
-           setInterval(function() {
-                getBlockInfo();
-                getPendingTx();
-                getAverageTime();
-                getChartData();
-                getTxCount()
-            }, 10000);
+
+    // display network as per cookie
+    if(getCookieValue("rk-network") == "test") {
+        switchNetwork("test");
+    }
+    else {
+        switchNetwork("main");
+    }
+    
+    resetData();
+
+    $('#cb1').change(function() {
+        if(this.checked) {
+            switchNetwork("test");
+        }
+        else {
+            switchNetwork("main");
+        }
+        streamClose();
+        resetData();
+        location.reload(true);
+    });
+
+    // Animate loader off screen
+    $(".se-pre-con").fadeOut("slow");  // fadeout the preloader
+
+    if (typeof (EventSource) !== "undefined") {
+
+        eventStream = new EventSource("statsStream.php");
+        eventStream.addEventListener("block-info", function(e) {
+            // if (e.origin != 'https://stats.recordskeeper.co') {
+            //     console.log('Origin was not https://stats.recordskeeper.co');
+            //     return;
+            // }
+            var streamData = JSON.parse(e.data);
+            $("#best_block").html("#"+streamData.best_block);
+            $("#last_block_time").html(streamData.last_block_time);
+            $("#xrk_supply").html(streamData.xrk_supply/100000000);
+        }, false);
+
+        eventStream.addEventListener("pending-tx", function(e) {
+            processStream(e.data);         
+        }, false);
+
+        eventStream.addEventListener("average-block-time", function(e) {
+            processStream(e.data);         
+        }, false);
+
+        eventStream.addEventListener("chart-data", function(e) {
+            processStream(e.data);         
+        }, false);
+
+        eventStream.addEventListener("tx-count", function(e) {
+            processStream(e.data);         
+        }, false);
+
+        eventStream.onmessage = function (e) {
+            console.log("Generic message: " + e.data);
+          };
+
+        eventStream.onerror = function () {
+            console.log("Error in update stream");
+          };
+          
+
+    } 
+    else {
+        alert("Your browser does not support Event Streams!");
+    }
+
+    // timer for last block mined duration
+    var lastBlockUpdateTimer = null; 
+
+    $('#last_block_time').on('DOMSubtreeModified',function(){
+        var lastBlockTime = parseInt(document.getElementById("last_block_time").textContent);
+        if (lastBlockTime >= 0) {
+            clearInterval(lastBlockUpdateTimer);
+            var ts = Math.round((new Date()).getTime() / 1000);
+            var timeDiff = ts - lastBlockTime;
+            console.log(lastBlockTime);
+
+            lastBlockUpdateTimer = setInterval(function() {
+                document.getElementById("last_block_time_diff").innerHTML = timeDiff + " s ago";
+                timeDiff++;
+            }, 1000); 
+        }
+      });
 
 });
 
-function networkToggle(){
- $('.tgl-btn').click(function(){
-        ToggleNetwork();
-    });
+function processStream(data){
+    console.log(data);
+    
 }
 
-// ToggleNetwork() function here to allow users to change the network on toggle
-// params : 
-// Return : NULL
-
-function ToggleNetwork(){
-
-        if($('#cb1').is(':checked'))
-            {
-             localstorage.network = "main";
-             $("#togglecontlabel").html(Mainnet);
-
-            }
-            else
-            {
-             localstorage.network = "test";
-             $("#togglecontlabel").html(Testnet);
-            }
-
+function streamClose(){
+    if(typeof(eventStream)=="object"){
+        eventStream.close();
+        eventStream = false;
+        console.log("Stream Closed"); 
     }
+}
+
 
 function getBlockInfo(){      
     var body = {"network":localStorage.network};
@@ -235,4 +293,62 @@ function plotCharts(values){
             }
         }
     });
+}
+
+
+// cookie creation
+function createCookie(name,value,days) {
+    if (days) {
+        var date = new Date();
+        date.setTime(date.getTime()+(days*24*60*60*1000));
+        var expires = "; expires="+date.toGMTString();
+    }
+    else var expires = "";
+    document.cookie = name+"="+value+expires+"; path=/";
+}
+
+function getCookieValue(cname) {
+    var name = cname + "=";
+    var ca = document.cookie.split(';');
+    for(var i = 0; i <ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0)==' ') {
+            c = c.substring(1);
+        }
+        if (c.indexOf(name) == 0) {
+            return c.substring(name.length,c.length);
+        }
+    }
+    return "";
+}
+
+function switchNetwork(network) {
+    if (network !== "test" && network !== "main") {
+        console.log("Not a valid network");
+        return;
+    }
+
+    var networkColor = network === "test" ? testNetColor : mainNetColor;
+    var networkLabel = network === "test" ? "TestNet" : "MainNet";
+    var cbChecked = network === "test" ? true : false;
+
+    createCookie("rk-network",network,365);
+    $("#togglecontlabel").html(networkLabel);
+    document.getElementById("cb1").checked = cbChecked;
+    document.getElementById("top").style.backgroundColor=networkColor;
+
+    var elements = document.getElementsByClassName("fas")
+    for (var i = 0; i < elements.length; i++) {
+        elements[i].style.color=networkColor;
+    }
+}
+
+function resetData() {
+    $("#best_block").html("#0");
+    $("#last_block_time").html(Math.round((new Date()).getTime() / 1000));
+    $("#xrk_supply").html("0");
+
+    $("#tx_count").html("0");
+    $("#pending_tx_count").html("0");
+    $("#avg_time").html("0 s");
 }

@@ -10,7 +10,7 @@
     <meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1, target-densitydpi=device-dpi">
     <title>Stats - Recordskeeper</title>
-    <link rel="icon" type="image/x-icon" href="assets/images/favicon.png">
+    <!--link rel="icon" type="image/x-icon" href="assets/images/favicon.png"-->
 
     <!-- Bootstrap core CSS -->
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
@@ -41,7 +41,7 @@
                            <label class="tgl-btn" for="cb1"></label>
                         </div>
                         <span >
-                            <label id="togglecontlabel">TestNetwork</label>
+                            <label id="togglecontlabel">MainNet</label>
                         </span>
                         
                     
@@ -69,7 +69,8 @@
         			<p>
 	        			<i class="fas fa-stopwatch font30"></i>
 	        			<span class="cardheading">	LAST BLOCK </span>
-	        			<span class="cardheading" id="best_block_time"></span>
+						<span class="cardheading" id="last_block_time_diff">0 s ago</span>
+						<span id='last_block_time' style="display:none"></span>
 	        		</p>
         	</div>
         	<div class="col-sm-4">
