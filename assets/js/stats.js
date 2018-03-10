@@ -44,19 +44,23 @@ $(document).ready(function(){
         }, false);
 
         eventStream.addEventListener("pending-tx", function(e) {
-            processStream(e.data);         
+            var streamData = JSON.parse(e.data);
+            $("#pending_tx_count").html(streamData.pending_tx_count);
         }, false);
 
         eventStream.addEventListener("average-block-time", function(e) {
-            processStream(e.data);         
+            var streamData = JSON.parse(e.data);
+            $("#avg_time").html(streamData.avg_time + " s");
         }, false);
 
         eventStream.addEventListener("chart-data", function(e) {
-            processStream(e.data);         
+            var streamData = JSON.parse(e.data);
+            if(streamData.success) plotCharts(streamData.data);
         }, false);
 
         eventStream.addEventListener("tx-count", function(e) {
-            processStream(e.data);         
+            var streamData = JSON.parse(e.data);
+            $("#tx_count").html(streamData.tx_count);
         }, false);
 
         eventStream.onmessage = function (e) {
@@ -82,7 +86,6 @@ $(document).ready(function(){
             clearInterval(lastBlockUpdateTimer);
             var ts = Math.round((new Date()).getTime() / 1000);
             var timeDiff = ts - lastBlockTime;
-            console.log(lastBlockTime);
 
             lastBlockUpdateTimer = setInterval(function() {
                 document.getElementById("last_block_time_diff").innerHTML = timeDiff + " s ago";
@@ -106,113 +109,17 @@ function streamClose(){
     }
 }
 
-
-function getBlockInfo(){      
-    var body = {"network":localStorage.network};
-    $.ajax({
-        type: "POST",
-        url: base_url+"/blockInfo/",
-        crossDomain: true,
-        data: JSON.stringify(body),
-        dataType: 'json',
-        success: function (data, textStatus, xhr) {
-            console.log(data);
-            jQuery.parseJSON(JSON.stringify(data));
-            $("#best_block").html("#"+data[0].data.best_block);
-            $("#best_block_time").html(data[0].data.best_block_timestamp);
-            $("#xrk_supply").html(data[0].data.xrk_supply/100000000);
-        },
-        error: function (xhr, textStatus, errorThrown) {
-            console.log('Error in Operation',xhr);
-        }
-    });
-}
-
-function getPendingTx(){
-    var body = {'network':localStorage.network};
-    $.ajax({
-        type: "POST",
-        url: base_url+"/pendingTx/",
-        crossDomain: true,
-        data: JSON.stringify(body),
-        dataType: 'json',
-        success: function (data, textStatus, xhr) {
-            console.log(data);
-            jQuery.parseJSON(JSON.stringify(data));
-            $("#pending_tx_count").html("#"+data.result.size);
-        },
-        error: function (xhr, textStatus, errorThrown) {
-            console.log('Error in Operation',xhr);
-        }
-    });
-}
-function getTxCount(){
-    var body = {'network':localStorage.network};
-    $.ajax({
-        type: "POST",
-        url: base_url+"/txCount/",
-        crossDomain: true,
-        data: JSON.stringify(body),
-        dataType: 'json',
-        success: function (data, textStatus, xhr) {
-            console.log(data);
-            jQuery.parseJSON(JSON.stringify(data));
-            $("#tx_count").html("#"+data[0].data.results[0].tx);
-        },
-        error: function (xhr, textStatus, errorThrown) {
-            console.log('Error in Operation',xhr);
-        }
-    });
-}
-
-function getAverageTime(){
-    var body = {'network':localStorage.network};
-    $.ajax({
-        type: "POST",
-        url: base_url+"/avgTime/",
-        crossDomain: true,
-        data: JSON.stringify(body),
-        dataType: 'json',
-        success: function (data, textStatus, xhr) {
-            console.log(data);
-            jQuery.parseJSON(JSON.stringify(data));
-            $("#avg_time").html(Math.round(data[0].data.avg_time)+" s");
-        },
-        error: function (xhr, textStatus, errorThrown) {
-            console.log('Error in Operation',xhr);
-        }
-    });
-}
-
-function getChartData(){
-    var body = {'network':localStorage.network};
-    $.ajax({
-        type: "POST",
-        url: base_url+"/chart/",
-        crossDomain: true,
-        data: JSON.stringify(body),
-        dataType: 'json',
-        success: function (data, textStatus, xhr) {
-            console.log(data);
-            plotCharts(jQuery.parseJSON(JSON.stringify(data)));
-        },
-        error: function (xhr, textStatus, errorThrown) {
-            console.log('Error in Operation',xhr);
-        }   
-    });
-}
-
 function plotCharts(values){
     var rates = [];
     var difficulty = [];
     var timestamp = [];
     var date;
 
-    for(var i=0; i<values[0].data.results.length; i++)
+    for(var i=0; i<values.length; i++)
     {
-        rates.push(values[0].data.results[i].hash_rate);
-        difficulty.push(values[0].data.results[i].difficulty);
-        date = new Date(values[0].data.results[i].created_at);
+        rates.push(values[i].hash_rate);
+        difficulty.push(values[i].difficulty);
+        date = new Date(values[i].created_at);
         timestamp.push(date.getDate());
     }
 
