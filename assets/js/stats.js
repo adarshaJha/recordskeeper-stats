@@ -31,7 +31,7 @@ $(document).ready(function(){
 
     if (typeof (EventSource) !== "undefined") {
 
-        eventStream = new EventSource("statsStream.php");
+        eventStream = new EventSource("src/statsStream.php");
         eventStream.addEventListener("block-info", function(e) {
             // if (e.origin != 'https://stats.recordskeeper.co') {
             //     console.log('Origin was not https://stats.recordskeeper.co');

@@ -1,6 +1,11 @@
 chronos/config_main.py
 chronos/config_test.py
 
+src/config-mainnet.php
+src/config-testnet.php
+
+*.pyc 
+
 # Logs
 logs
 *.log
