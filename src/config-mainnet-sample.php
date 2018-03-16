@@ -12,5 +12,6 @@ return array(
    "rk_chain"  => "recordskeeper",
    "premined_tokens"  => 0,
    "mining_reward"  => 1000000000,
-   "refresh_rate" => 5
+   "refresh_rate" => 5,
+   "genesis-timestamp" => 1519486418
 );

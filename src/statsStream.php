@@ -15,6 +15,7 @@ $rkUser = $config["rk_user"];
 $rkPwd = $config["rk_pass"];
 
 $rkChain = $config["rk_chain"];
+$rkGenesisTimestamp = $config["genesis-timestamp"];
 
 $dbHost = $config["db_host"]; 
 $dbName= $config["db_name"];
@@ -51,6 +52,9 @@ try {
           $bestBlock = $row["best_block"];
           $lastBlockTime = $row["block_time"];
           $xrkSupply = ($miningReward * $bestBlock) + $preminedTokens;
+        
+          // calculate average block time
+          $avgTime = intval(($lastBlockTime - $rkGenesisTimestamp) / $bestBlock);
       }
 
       $sql = 'SELECT * FROM transaction_info ORDER BY id DESC LIMIT 1' ;
@@ -61,13 +65,13 @@ try {
           $txCount = $row["tx"];
       }
       
-      $sql = 'SELECT AVG(time_diff) as avg_time FROM block_info WHERE created_at > DATE_SUB(NOW(), INTERVAL 1 DAY) ORDER BY id ASC';
+      /* $sql = 'SELECT AVG(time_diff) as avg_time FROM block_info WHERE created_at > DATE_SUB(NOW(), INTERVAL 1 DAY) ORDER BY id ASC';
       $sth = $pdo->prepare($sql);
       $sth->execute();
       $row = $sth->fetch();
       if($row) { 
           $avgTime = (int)$row["avg_time"];
-      }
+      } */
 
       error_log("reading chart values");
       $sql = 'SELECT * FROM chart_values ORDER BY id DESC LIMIT 7';
