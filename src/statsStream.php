@@ -74,7 +74,7 @@ try {
       } */
 
       error_log("reading chart values");
-      $sql = 'SELECT * FROM chart_values ORDER BY id DESC LIMIT 7';
+      $sql = 'SELECT * FROM chart_values ORDER BY id DESC LIMIT 15';
       $sth = $pdo->prepare($sql);
       $sth->execute();
       $rows = $sth->fetchAll(); 
