@@ -143,6 +143,28 @@ else {
 				
 			
 		</div>
+
+        <div class="col-sm-4">
+              
+                <p>
+                    <i class="fas fa-hourglass-half font30 font30"></i>
+                    <span class="cardheading"> MAX BLOCK SIZE </span>
+                    <span class="cardheading" id="rk_age">8 MB</span>
+                </p>
+                
+            
+        </div>
+
+       <!-- <div class="col-sm-4">
+              
+                <p>
+                    <i class="fas fa-hourglass-half font30 font30"></i>
+                    <span class="cardheading"> MAX TRANSACTION SIZE </span>
+                    <span class="cardheading" id="rk_age">4 MB</span>
+                </p>
+                
+            
+        </div> -->
 		</div>
        <div class ="row mbt margintop30">
         	<div class="col-sm-6">

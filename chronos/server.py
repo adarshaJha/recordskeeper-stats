@@ -52,6 +52,7 @@ def main():
   response2 = requests.post(url, auth=HTTPBasicAuth(user, password), data = json.dumps(payload2), headers=headers)
   response_json2 = response2.json()
   latest_block_time = response_json2[0]['result'][0]['time']
+  miner = response_json2[0]['result'][0]['miner']
   # prepare a cursor object using cursor() method
   cursor = db.cursor()
   # Prepare SQL query to INSERT a record into the database.
@@ -69,8 +70,8 @@ def main():
     count = int(row[0])
 
     if count == 0:
-      sql3 = """INSERT INTO block_info(best_block, block_time)
-             VALUES ("%s", "%s")""", (latest_block,latest_block_time)
+      sql3 = """INSERT INTO block_info(best_block, block_time, miner)
+             VALUES ("%s", "%s", "%s")""", (latest_block,latest_block_time, miner)
       cursor.execute(*sql3)
       # Commit your changes in the database
       db.commit()
@@ -88,7 +89,7 @@ def main():
         last_block_time = int(row1[0])
         time_diff = latest_block_time - last_block_time
         sql6 = """INSERT INTO block_info(best_block, block_time, time_diff)
-             VALUES ("%s", "%s", "%s")""", (latest_block,latest_block_time,time_diff)
+             VALUES ("%s", "%s", "%s", "%s")""", (latest_block,latest_block_time,time_diff, miner)
         cursor.execute(sql6)
         # Commit your changes in the database
         db.commit()
@@ -117,7 +118,7 @@ def main():
         last_block_time = int(row1[0])
         time_diff = block_time - last_block_time
         sql8 = """INSERT INTO block_info(best_block, block_time, time_diff)
-             VALUES ("%s", "%s", "%s")""", (last_block, block_time, time_diff)
+             VALUES ("%s", "%s", "%s", "%s")""", (last_block, block_time, time_diff, miner)
         cursor.execute(*sql8)
         # Commit your changes in the database
         db.commit()
