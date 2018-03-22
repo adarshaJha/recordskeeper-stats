@@ -52,7 +52,7 @@ def main():
   response2 = requests.post(url, auth=HTTPBasicAuth(user, password), data = json.dumps(payload2), headers=headers)
   response_json2 = response2.json()
   latest_block_time = response_json2[0]['result'][0]['time']
-  miner = response_json2[0]['result'][0]['miner']
+  latest_miner = str(response_json2[0]['result'][0]['miner'])
   # prepare a cursor object using cursor() method
   cursor = db.cursor()
   # Prepare SQL query to INSERT a record into the database.
@@ -71,7 +71,7 @@ def main():
 
     if count == 0:
       sql3 = """INSERT INTO block_info(best_block, block_time, miner)
-             VALUES ("%s", "%s", "%s")""", (latest_block,latest_block_time, miner)
+             VALUES ("%s", "%s", "%s")""", (latest_block,latest_block_time, latest_miner)
       cursor.execute(*sql3)
       # Commit your changes in the database
       db.commit()
@@ -88,8 +88,8 @@ def main():
         row1 = cursor.fetchone()
         last_block_time = int(row1[0])
         time_diff = latest_block_time - last_block_time
-        sql6 = """INSERT INTO block_info(best_block, block_time, time_diff)
-             VALUES ("%s", "%s", "%s", "%s")""", (latest_block,latest_block_time,time_diff, miner)
+        sql6 = """INSERT INTO block_info(best_block, block_time, time_diff, miner)
+             VALUES ("%s", "%s", "%s", "%s")""", (latest_block,latest_block_time,time_diff, latest_miner)
         cursor.execute(sql6)
         # Commit your changes in the database
         db.commit()
@@ -112,12 +112,13 @@ def main():
         response3 = requests.post(url, auth=HTTPBasicAuth(user, password), data = json.dumps(payload3), headers=headers)
         response_json3 = response3.json()
         block_time = response_json3[0]['result'][0]['time']
+        str(miner) = response_json3[0]['result'][0]['miner']
         sql7 = """SELECT block_time FROM block_info WHERE id=(SELECT max(id) FROM block_info);"""
         cursor.execute(sql7)
         row1 = cursor.fetchone()
         last_block_time = int(row1[0])
         time_diff = block_time - last_block_time
-        sql8 = """INSERT INTO block_info(best_block, block_time, time_diff)
+        sql8 = """INSERT INTO block_info(best_block, block_time, time_diff, miner)
              VALUES ("%s", "%s", "%s", "%s")""", (last_block, block_time, time_diff, miner)
         cursor.execute(*sql8)
         # Commit your changes in the database
