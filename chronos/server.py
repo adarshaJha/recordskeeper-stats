@@ -112,7 +112,7 @@ def main():
         response3 = requests.post(url, auth=HTTPBasicAuth(user, password), data = json.dumps(payload3), headers=headers)
         response_json3 = response3.json()
         block_time = response_json3[0]['result'][0]['time']
-        str(miner) = response_json3[0]['result'][0]['miner']
+        miner = str(response_json3[0]['result'][0]['miner'])
         sql7 = """SELECT block_time FROM block_info WHERE id=(SELECT max(id) FROM block_info);"""
         cursor.execute(sql7)
         row1 = cursor.fetchone()
