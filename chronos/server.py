@@ -59,7 +59,7 @@ def main():
   
   try:
     sql = """INSERT INTO difficulty(VALUE)
-             VALUES ("%s")""", (difficulty,)
+             VALUES (%s)""", (difficulty,)
     cursor.execute(*sql)
 
     
@@ -71,7 +71,7 @@ def main():
 
     if count == 0:
       sql3 = """INSERT INTO block_info(best_block, block_time, miner)
-             VALUES ("%s", "%s", "%s")""", (latest_block,latest_block_time, latest_miner)
+             VALUES (%s, %s, %s)""", (latest_block,latest_block_time, latest_miner)
       cursor.execute(*sql3)
       # Commit your changes in the database
       db.commit()
@@ -89,7 +89,7 @@ def main():
         last_block_time = int(row1[0])
         time_diff = latest_block_time - last_block_time
         sql6 = """INSERT INTO block_info(best_block, block_time, time_diff, miner)
-             VALUES ("%s", "%s", "%s", "%s")""", (latest_block,latest_block_time,time_diff, latest_miner)
+             VALUES (%s, %s, %s, %s)""", (latest_block,latest_block_time,time_diff, latest_miner)
         cursor.execute(sql6)
         # Commit your changes in the database
         db.commit()
@@ -119,7 +119,7 @@ def main():
         last_block_time = int(row1[0])
         time_diff = block_time - last_block_time
         sql8 = """INSERT INTO block_info(best_block, block_time, time_diff, miner)
-             VALUES ("%s", "%s", "%s", "%s")""", (last_block, block_time, time_diff, miner)
+             VALUES (%s, %s, %s, %s)""", (last_block, block_time, time_diff, miner)
         cursor.execute(*sql8)
         # Commit your changes in the database
         db.commit()
