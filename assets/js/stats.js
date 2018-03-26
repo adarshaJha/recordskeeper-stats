@@ -16,10 +16,10 @@ $(document).ready(function(){
 
     $('#cb1').change(function() {
         if(this.checked) {
-            switchNetwork("test");
+            switchNetwork("main");
         }
         else {
-            switchNetwork("main");
+            switchNetwork("test");
         }
         streamClose();
         resetData();
@@ -237,7 +237,7 @@ function switchNetwork(network) {
 
     var networkColor = network === "test" ? testNetColor : mainNetColor;
     var networkLabel = network === "test" ? "TestNetwork" : "MainNetwork";
-    var cbChecked = network === "test" ? true : false;
+    var cbChecked = network === "test" ? false : true;
 
     createCookie("rk-network",network,365);
     $("#togglecontlabel").html(networkLabel);
