@@ -151,13 +151,13 @@ else {
         	<div class="col-sm-6">
 			<h2 class="heading">Difficulty</h2>
         	    <div class="cardss">
-        			<canvas id="diffChart" width="100%" height="200"></canvas>
+        			<canvas id="diffChart" width="1000" height="200"></canvas>
         		</div>
         	</div>
 			<div class="col-sm-6">
 			<h2 class="heading">Hash Rate</h2>
         	    <div class="cardss">
-				<canvas id="hashChart" width="100%" height="200"></canvas>
+				<canvas id="hashChart" width="1000" height="200"></canvas>
         		</div>
         	</div>
        </div>
