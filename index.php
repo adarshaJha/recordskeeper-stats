@@ -33,7 +33,7 @@ else {
     <meta name="description" content="">
     <meta name="author" content="">
     <meta name="description" content="">
-	<meta name="viewport" content="width=device-width, initial-scale=1, target-densitydpi=device-dpi">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, target-densitydpi=device-dpi">
     <title>Stats - Recordskeeper</title>
     <link rel="icon" type="image/x-icon" href="assets/images/favicon.png">
 
@@ -54,13 +54,7 @@ else {
 					<img src="assets/images/logo.png">
 				</p>
 				<nav id="nav">
-                    <ul>
-                        <!-- <li class="sub"><a accesskey="1" href="./">Tosh-2 <span>(Switch Device)</span></a> <em>(1)</em>
-                        <ul>
-                            <li><a href="./">Toshendra</a></li>
-                            <li class="active"><a href="./">Tosh-2</a></li>
-                            <li class="a"><a href="./">Add Device</a></li>
-                        </ul> -->
+                    <ul>                     
                         <div id="togglecont">
                             <input class="tgl tgl-light" id="cb1" type="checkbox"/>
                            <label class="tgl-btn" for="cb1"></label>
@@ -68,12 +62,8 @@ else {
                         <span >
                             <label id="togglecontlabel">MainNet</label>
                         </span>
-                        
-                    
-                </ul>
-                
-            </nav>
-				
+                    </ul>                
+                </nav>	
 			</header>
 <!-- header ends here  -->
 
@@ -155,28 +145,19 @@ else {
             
         </div>
 
-       <!-- <div class="col-sm-4">
-              
-                <p>
-                    <i class="fas fa-hourglass-half font30 font30"></i>
-                    <span class="cardheading"> MAX TRANSACTION SIZE </span>
-                    <span class="cardheading" id="rk_age">4 MB</span>
-                </p>
-                
-            
-        </div> -->
+     
 		</div>
        <div class ="row mbt margintop30">
         	<div class="col-sm-6">
 			<h2 class="heading">Difficulty</h2>
         	    <div class="cardss">
-        			<canvas id="diffChart" width="1000" height="200"></canvas>
+        			<canvas id="diffChart" width="100%" height="200"></canvas>
         		</div>
         	</div>
 			<div class="col-sm-6">
 			<h2 class="heading">Hash Rate</h2>
         	    <div class="cardss">
-				<canvas id="hashChart" width="1000" height="200"></canvas>
+				<canvas id="hashChart" width="100%" height="200"></canvas>
         		</div>
         	</div>
        </div>
