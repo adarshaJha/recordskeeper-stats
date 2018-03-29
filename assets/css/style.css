@@ -13,6 +13,8 @@
     bottom: -50px;
     font-size: 12px;
     margin-top: 140px;
+    width: 70%;
+    margin: auto;
 }
 #footer {
     font-size: 12px;
@@ -403,7 +405,11 @@ body, textarea, input, select, option, button {
     right: 0;
     top: 50px;
     }
-   
+    #footer{
+      width: 100%;
+    }
+
+
      #nav {
        right: 20px;
     margin-top: 10px;
