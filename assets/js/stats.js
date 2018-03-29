@@ -243,6 +243,7 @@ function switchNetwork(network) {
     $("#togglecontlabel").html(networkLabel);
     document.getElementById("cb1").checked = cbChecked;
     document.getElementById("top").style.backgroundColor=networkColor;
+    document.getElementById("nav").style.backgroundColor=networkColor;
 
     var elements = document.getElementsByClassName("fas")
     for (var i = 0; i < elements.length; i++) {
