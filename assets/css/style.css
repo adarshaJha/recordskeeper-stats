@@ -7,6 +7,30 @@
     height: 49px;
     background: #212739;
 }
+#footer {
+    z-index: 1;
+    padding: 0 0 0 20px;
+    bottom: -50px;
+    font-size: 12px;
+    margin-top: 140px;
+}
+#footer {
+    font-size: 12px;
+}
+#footer ul {
+    overflow: hidden;
+    list-style: none;
+    margin-right: -20px;
+    padding: 0;
+}
+#footer a {
+    color: #7f91a3;
+}
+#footer ul li {
+    position: relative;
+    float: left;
+    margin: 0 16px 0 0;
+}
 
 #logo img{
 	    width: 275px;
