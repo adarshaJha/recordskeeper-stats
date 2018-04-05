@@ -123,16 +123,7 @@ else {
         	</div>
 	   </div>
 	   <div class ="row mbt">
-		<div class="col-sm-4">
-			  
-				<p>
-					<i class="fas fa-hourglass-half font30 font30"></i>
-					<span class="cardheading"> BLOCKCHAIN AGE </span>
-					<span class="cardheading" id="rk_age"><?php echo $rkAgeDispaly ?></span>
-				</p>
-				
-			
-		</div>
+		
 
         <div class="col-sm-4">
               
