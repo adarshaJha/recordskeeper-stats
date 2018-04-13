@@ -1,9 +1,8 @@
 <?php
 // load config
-/*if ($_COOKIE["rk-network"] == "test")
+if ($_COOKIE["rk-network"] == "test")
   $config = include('config-testnet.php');
-else $config = include('config-mainnet.php');*/
-$config = include('config-testnet.php');
+else $config = include('config-mainnet.php');
 $rkHost = $config["rk_host"]; 
 $rkPort = $config["rk_port"];
 $rkUser = $config["rk_user"];
