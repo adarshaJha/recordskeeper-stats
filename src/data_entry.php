@@ -16,7 +16,6 @@ $premined_tokens =  $config["premined_tokens"];
 $mining_reward = $config["mining_reward"];
 $max_block_size = $config["max_block_size"];
 $fee = $config["fee"];
-$amount  = 0;
 $latest_block = getInfo();
 $info = getblock($latest_block);
 $latest_tx_count = $info[0];
@@ -25,6 +24,7 @@ $latest_miner = $info[2];
 $latest_block_time = $info[3];
 $block_fee = $info[4];
 $latest_block_size = $info[5];
+$latest_data_items = $info[6];
 $dir = $config["dir"];
 
 $pending_tx = getPendingTransactions();
@@ -33,7 +33,6 @@ $stream_info = listStreams();
 $streams_items = $stream_info[1];
 $total_streams = $stream_info[0];
 $total_addresses = listAddresses();
-$active_miners = "";
 $total_miners = totalMiners();
 
 $blockchain_size = rkSize($dir);
@@ -75,8 +74,8 @@ try {
                 $avg_time = $row[0];
                 $time_diff       = $latest_block_time - $last_block_time;
                 $latest_hash_rate = $latest_difficulty/$avg_time;
-                $sql6            = "INSERT INTO block_info(best_block, block_time, block_size, time_diff, miner, txcount, difficulty, hash_rate, fee)
-             VALUES ('$latest_block','$latest_block_time', '$latest_block_size','$time_diff', '$latest_miner', '$latest_tx_count', '$latest_dificulty', '$latest_hash_rate', '$latest_fee' )";
+                $sql6            = "INSERT INTO block_info(best_block, block_time, block_size, time_diff, miner, txcount, data_items difficulty, hash_rate, fee)
+             VALUES ('$latest_block','$latest_block_time', '$latest_block_size','$time_diff', '$latest_miner', '$latest_tx_count', '$latest_data_items' '$latest_dificulty', '$latest_hash_rate', '$latest_fee' )";
                 $sth             = $pdo->prepare($sql6);
                 $sth->execute();
                  } else {
@@ -97,14 +96,15 @@ try {
                             $miner = $block_info[2];
                             $fee = $block_info[4];
                             $block_size = $block_info[5];
+                            $block_items = $block_info[6];
                             $sql = 'SELECT AVG(time_diff) FROM block_info';
                             $sth  = $pdo->prepare($sql);
                             $sth->execute();
                             $row = $sth->fetch();
                             $avg_time = $row[0];
                             $hash_rate = $difficulty/$avg_time;
-                            $sql8            = "INSERT INTO block_info(best_block, block_time, block_size, time_diff, miner, txcount, difficulty, hash_rate, fee)
-                              VALUES ('$last_block', '$block_time', '$block_size', '$time_diff', '$miner', '$tx_count', '$difficulty','$hash_rate', '$fee')";
+                            $sql8            = "INSERT INTO block_info(best_block, block_time, block_size, time_diff, miner, txcount, data_items, difficulty, hash_rate, fee)
+                              VALUES ('$last_block', '$block_time', '$block_size', '$time_diff', '$miner', '$tx_count','$block_items', '$difficulty','$hash_rate', '$fee')";
                             $sth             = $pdo->prepare($sql8);
                             $sth->execute();
 
@@ -208,6 +208,7 @@ $httpCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
 if ($httpCode == 200 && $result->error == null) {
     $r = $result->result->tx;
     $tx_count   = count($r);
+    $items = 0;
     $dificulty  = $result->result->difficulty;
     $miner      = $result->result->miner;
     $block_time = $result->result->time;
@@ -222,11 +223,23 @@ if ($httpCode == 200 && $result->error == null) {
     //echo($fee_value);
 
     $fees = $fee_value - 10;
+    if ($tx_count>1){
+    for ($i=0; $i< $tx_count; $i++) {
+        $txn = $tx[$i];
+        $vout = $txn->vout;
+        for ($j=0; $j<= $i; $j++) {
+        $itm = $vout[$j];
+        $item = $itm->items;
+        $item_count = count($item);
+        $items = $item_count + $items;
+        }
+      }
+    }
 
 } else if ($httpCode != 200 || ($httpCode == 200 && $result->error != null)) {
 error_log("ERROR: Info not fetched from blockchain");
     }
-    return array($tx_count, $dificulty, $miner, $block_time, $fees, $block_size);
+    return array($tx_count, $dificulty, $miner, $block_time, $fees, $block_size, $items);
 }
 
 
