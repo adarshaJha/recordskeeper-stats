@@ -1,6 +1,5 @@
 <?php
 // load config
-var_dump($argv);
 if ($argv[1] == "test")
 $config = include('config-testnet.php');
 else $config = include('config-mainnet.php');
