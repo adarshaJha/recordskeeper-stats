@@ -10,8 +10,12 @@ return array(
    "rk_user"  => "rk user",
    "rk_pass"  => "rk pass",
    "rk_chain"  => "recordskeeper-test",
-   "premined_tokens"  => 0,
-   "mining_reward"  => 1000000000,
-   "refresh_rate" => 5,
-   "genesis-timestamp" => 1519483039
+   "premined_tokens"  => 300000000,
+   "mining_reward"  => 10,
+   "dir" => '/home/rohit/.rk/recordskeeper',
+   "genesis-miner" => "n2gNFB8oz4qfmUKCsfwqLo8ineWfocpNMk",
+   "genesis-miner-tx-id" => "d8853dc3a446e3117ba2932df0093ba6d740ec6b9d7193eb75bf0be60e3f3175",
+   "difficulty"=> 0.00097655,
+   "hash-rate" => 0.00006510,
+   "genesis-timestamp" => 1522831575
 );
