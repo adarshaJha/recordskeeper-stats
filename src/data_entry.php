@@ -1,6 +1,7 @@
 <?php
 // load config
-if ($_COOKIE["rk-network"] == "test")
+var_dump($argv);
+if ($argv[1] == "test")
 $config = include('config-testnet.php');
 else $config = include('config-mainnet.php');
 $rkHost  = $config["rk_host"];
@@ -14,8 +15,11 @@ $dbUser  = $config["db_user"];
 $dbPwd   = $config["db_pass"];
 $premined_tokens =  $config["premined_tokens"];
 $mining_reward = $config["mining_reward"];
-$max_block_size = $config["max_block_size"];
-$fee = $config["fee"];
+$genesis_block_time = $config["genesis-timestamp"];
+$genesis_block_miner = $config["genesis-miner"];
+$genesis_miner_tx_id = $config["genesis-miner-tx-id"];
+$genesis_difficulty = $config["difficulty"];
+$genesis_hash_rate = $config["hash-rate"];
 $latest_block = getInfo();
 $info = getblock($latest_block);
 $latest_tx_count = $info[0];
@@ -25,6 +29,8 @@ $latest_block_time = $info[3];
 $block_fee = $info[4];
 $latest_block_size = $info[5];
 $latest_data_items = $info[6];
+$latest_miner_tx_id = $info[7];
+$latest_block_data_size = $info[8];
 $dir = $config["dir"];
 
 $pending_tx = getPendingTransactions();
@@ -48,8 +54,8 @@ try {
         $row   = $sth->fetch();
         $count = $row[0];
         if ($count == 0) {
-            $sql2 = "INSERT INTO block_info(best_block, block_time, time_diff, miner, txcount, difficulty, fee)
-                              VALUES (0, 1522837825, 0, '1APSxFtBTbtXFacQ4Tn3bcPLHdqwN8SBx4fmEh', 1 ,  0.06249911, 0)";
+            $sql2 = "INSERT INTO block_info(best_block, block_time, block_size, time_diff, miner, miner_tx_id, txcount, data_items, data_size, difficulty, hash_rate, fee)
+                              VALUES (0, '$genesis_block_time', 245, 0, '$genesis_block_miner', '$genesis_miner_tx_id', 1 , 0, 0, '$genesis_difficulty', '$genesis_hash_rate', 0)";
             $sth  = $pdo->prepare($sql2);
             $sth->execute();
             }
@@ -65,18 +71,18 @@ try {
                 $sql5 = 'SELECT block_time FROM block_info WHERE id=(SELECT max(id) FROM block_info)';
                 $sth  = $pdo->prepare($sql5);
                 $sth->execute();
-                $row             = $sth->fetch();
+                $row = $sth->fetch();
                 $last_block_time = $row[0];
                 $sql3 = 'SELECT AVG(time_diff) FROM block_info';
                 $sth  = $pdo->prepare($sql3);
                 $sth->execute();
-                $row             = $sth->fetch();
+                $row = $sth->fetch();
                 $avg_time = $row[0];
                 $time_diff       = $latest_block_time - $last_block_time;
                 $latest_hash_rate = $latest_difficulty/$avg_time;
-                $sql6            = "INSERT INTO block_info(best_block, block_time, block_size, time_diff, miner, txcount, data_items difficulty, hash_rate, fee)
-             VALUES ('$latest_block','$latest_block_time', '$latest_block_size','$time_diff', '$latest_miner', '$latest_tx_count', '$latest_data_items' '$latest_dificulty', '$latest_hash_rate', '$latest_fee' )";
-                $sth             = $pdo->prepare($sql6);
+                $sql6            = "INSERT INTO block_info(best_block, block_time, block_size, time_diff, miner, miner_tx_id, txcount, data_items, data_size, difficulty, hash_rate, fee)
+             VALUES ('$latest_block','$latest_block_time', '$latest_block_size','$time_diff', '$latest_miner', '$latest_miner_tx_id', '$latest_tx_count', '$latest_data_items', '$latest_block_data_size', '$latest_dificulty', '$latest_hash_rate', '$latest_fee' )";
+                $sth = $pdo->prepare($sql6);
                 $sth->execute();
                  } else {
                     for ($i = 1; $i <= $block_diff; $i++) {
@@ -97,15 +103,17 @@ try {
                             $fee = $block_info[4];
                             $block_size = $block_info[5];
                             $block_items = $block_info[6];
+                            $miner_tx_id = $block_info[7];
+                            $data_size = $block_info[8];
                             $sql = 'SELECT AVG(time_diff) FROM block_info';
                             $sth  = $pdo->prepare($sql);
                             $sth->execute();
                             $row = $sth->fetch();
                             $avg_time = $row[0];
                             $hash_rate = $difficulty/$avg_time;
-                            $sql8            = "INSERT INTO block_info(best_block, block_time, block_size, time_diff, miner, txcount, data_items, difficulty, hash_rate, fee)
-                              VALUES ('$last_block', '$block_time', '$block_size', '$time_diff', '$miner', '$tx_count','$block_items', '$difficulty','$hash_rate', '$fee')";
-                            $sth             = $pdo->prepare($sql8);
+                            $sql8 = "INSERT INTO block_info(best_block, block_time, block_size, time_diff, miner, miner_tx_id, txcount, data_items, data_size, difficulty, hash_rate, fee)
+                              VALUES ('$last_block', '$block_time', '$block_size', '$time_diff', '$miner', '$miner_tx_id', '$tx_count','$block_items', '$data_size', '$difficulty','$hash_rate', '$fee')";
+                            $sth = $pdo->prepare($sql8);
                             $sth->execute();
 
                     } 
@@ -209,6 +217,7 @@ if ($httpCode == 200 && $result->error == null) {
     $r = $result->result->tx;
     $tx_count   = count($r);
     $items = 0;
+    $data_size = 0; 
     $dificulty  = $result->result->difficulty;
     $miner      = $result->result->miner;
     $block_time = $result->result->time;
@@ -216,6 +225,7 @@ if ($httpCode == 200 && $result->error == null) {
     $re = $result->result;
     $tx = $re->tx;
     $vout= $tx[0];
+    $miner_tx_id = $vout->txid;
     $tx_out = $vout->vout;
     
     $value = $tx_out[0];
@@ -230,8 +240,13 @@ if ($httpCode == 200 && $result->error == null) {
         for ($j=0; $j<= $i; $j++) {
         $itm = $vout[$j];
         $item = $itm->items;
+        $it = $item[$j];
+        $hex = $it->data;
+        $count = strlen($hex);
+        $size = $count/2; 
         $item_count = count($item);
         $items = $item_count + $items;
+        $data_size = $size + $data_size;
         }
       }
     }
@@ -239,7 +254,7 @@ if ($httpCode == 200 && $result->error == null) {
 } else if ($httpCode != 200 || ($httpCode == 200 && $result->error != null)) {
 error_log("ERROR: Info not fetched from blockchain");
     }
-    return array($tx_count, $dificulty, $miner, $block_time, $fees, $block_size, $items);
+    return array($tx_count, $dificulty, $miner, $block_time, $fees, $block_size, $items, $miner_tx_id, $data_size);
 }
 
 
