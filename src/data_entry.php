@@ -53,44 +53,24 @@ try {
         $row   = $sth->fetch();
         $count = $row[0];
         if ($count == 0) {
-            $sql2 = "INSERT INTO block_info(best_block, block_time, block_size, time_diff, miner, miner_tx_id, txcount, data_items, data_size, difficulty, hash_rate, fee)
+            $sql = "INSERT INTO block_info(best_block, block_time, block_size, time_diff, miner, miner_tx_id, txcount, data_items, data_size, difficulty, hash_rate, fee)
                               VALUES (0, '$genesis_block_time', 245, 0, '$genesis_block_miner', '$genesis_miner_tx_id', 1 , 0, 0, '$genesis_difficulty', '$genesis_hash_rate', 0)";
-            $sth  = $pdo->prepare($sql2);
+            $sth  = $pdo->prepare($sql);
             $sth->execute();
-            }
-        else {
-
-            $sql4 = 'SELECT best_block FROM block_info WHERE best_block=(SELECT max(best_block) FROM block_info)';
-             $sth  = $pdo->prepare($sql4);
-             $sth->execute();
-             $row        = $sth->fetch();
-             $last_block = $row[0];
-             $block_diff = $latest_block - $last_block;
-             if ($block_diff == 1) {
-                $sql5 = 'SELECT block_time FROM block_info WHERE id=(SELECT max(id) FROM block_info)';
-                $sth  = $pdo->prepare($sql5);
-                $sth->execute();
-                $row = $sth->fetch();
-                $last_block_time = $row[0];
-                $sql3 = 'SELECT AVG(time_diff) FROM block_info';
-                $sth  = $pdo->prepare($sql3);
-                $sth->execute();
-                $row = $sth->fetch();
-                $avg_time = $row[0];
-                $time_diff       = $latest_block_time - $last_block_time;
-                $latest_hash_rate = $latest_difficulty/$avg_time;
-                $sql6            = "INSERT INTO block_info(best_block, block_time, block_size, time_diff, miner, miner_tx_id, txcount, data_items, data_size, difficulty, hash_rate, fee)
-             VALUES ('$latest_block','$latest_block_time', '$latest_block_size','$time_diff', '$latest_miner', '$latest_miner_tx_id', '$latest_tx_count', '$latest_data_items', '$latest_block_data_size', '$latest_dificulty', '$latest_hash_rate', '$latest_fee' )";
-                $sth = $pdo->prepare($sql6);
-                $sth->execute();
-                 } else {
+            } else {
+                    $sql2 = 'SELECT best_block FROM block_info WHERE best_block=(SELECT max(best_block) FROM block_info)';
+                    $sth  = $pdo->prepare($sql2);
+                    $sth->execute();
+                    $row        = $sth->fetch();
+                    $last_block = $row[0];
+                    $block_diff = $latest_block - $last_block;
                     for ($i = 1; $i <= $block_diff; $i++) {
                         $last_block = $last_block + 1;
                         $block_info = getblock($last_block);
                         print_r($block_info);
                      
-                        $sql7 = 'SELECT block_time FROM block_info WHERE id=(SELECT max(id) FROM block_info)';
-                            $sth  = $pdo->prepare($sql7);
+                        $sql3 = 'SELECT block_time FROM block_info WHERE id=(SELECT max(id) FROM block_info)';
+                            $sth  = $pdo->prepare($sql3);
                             $sth->execute();
                             $row             = $sth->fetch();
                             $last_block_time = $row[0];
@@ -110,37 +90,36 @@ try {
                             $row = $sth->fetch();
                             $avg_time = $row[0];
                             $hash_rate = $difficulty/$avg_time;
-                            $sql8 = "INSERT INTO block_info(best_block, block_time, block_size, time_diff, miner, miner_tx_id, txcount, data_items, data_size, difficulty, hash_rate, fee)
+                            $sql4 = "INSERT INTO block_info(best_block, block_time, block_size, time_diff, miner, miner_tx_id, txcount, data_items, data_size, difficulty, hash_rate, fee)
                               VALUES ('$last_block', '$block_time', '$block_size', '$time_diff', '$miner', '$miner_tx_id', '$tx_count','$block_items', '$data_size', '$difficulty','$hash_rate', '$fee')";
-                            $sth = $pdo->prepare($sql8);
+                            $sth = $pdo->prepare($sql4);
                             $sth->execute();
 
                     } 
 
-                     $sql11 = "SELECT COUNT(DISTINCT(miner)) FROM `block_info` ORDER BY id DESC LIMIT 1000";
-                            $sth = $pdo->prepare($sql11);
+                     $sql5 = "SELECT COUNT(DISTINCT(miner)) FROM `block_info` ORDER BY id DESC LIMIT 1000";
+                            $sth = $pdo->prepare($sql5);
                             $sth->execute();
                             $row = $sth->fetch();
                             $active_miners = $row[0];
                 }
 
-        $sql9 = "SELECT COUNT(id) FROM dynamic_values";
-        $sth  = $pdo->prepare($sql9);
+        $sql6 = "SELECT COUNT(id) FROM dynamic_values";
+        $sth  = $pdo->prepare($sql6);
         $sth->execute();
         $row   = $sth->fetch();
         $count = $row[0];
         if ($count == 0) {
-            $sql10 = "INSERT INTO dynamic_values(xrk_supply, blockchain_size, stream_items, total_addresses, total_miners, pending_tx, active_miners, total_streams)
+            $sql7 = "INSERT INTO dynamic_values(xrk_supply, blockchain_size, stream_items, total_addresses, total_miners, pending_tx, active_miners, total_streams)
                               VALUES ('$xrk_supply', '$blockchain_size', '$streams_items', '$total_addresses', '$total_miners' , '$pending_tx', '$active_miners', '$total_streams')";
-            $sth  = $pdo->prepare($sql10);
+            $sth  = $pdo->prepare($sql7);
             $sth->execute();
             }
         else {
-             $sql11 = "UPDATE dynamic_values SET xrk_supply = '$xrk_supply', blockchain_size= '$blockchain_size', stream_items = '$streams_items', total_addresses = '$total_addresses', pending_tx = '$pending_tx', active_miners= '$active_miners', total_streams= '$total_streams' WHERE id=1"; 
-             $sth  = $pdo->prepare($sql11);
+             $sql8 = "UPDATE dynamic_values SET xrk_supply = '$xrk_supply', blockchain_size= '$blockchain_size', stream_items = '$streams_items', total_addresses = '$total_addresses', pending_tx = '$pending_tx', active_miners= '$active_miners', total_streams= '$total_streams' WHERE id=1"; 
+             $sth  = $pdo->prepare($sql8);
             $sth->execute();
         }
-      }
     }
     $sth = null;
     $pdo = null;
