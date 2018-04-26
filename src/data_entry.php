@@ -1,8 +1,18 @@
 <?php
+$myfile = fopen("stats.txt", "r") or die("Unable to open file!");
+$status = fgets($myfile);
+$length = strlen($status);
+if($length > 6){
+    $myfile = fopen("stats.txt", "w") or die("Unable to open file!");
+    $txt = "";
+fwrite($myfile, $txt);
 // load config
-if ($argv[1] == "test")
-$config = include('config-testnet.php');
-else $config = include('config-mainnet.php');
+  if ($argv[1] == "test") {
+  $config = include('config-testnet.php'); 
+  }
+else {
+    $config = include('config-mainnet.php');
+   } 
 $rkHost  = $config["rk_host"];
 $rkPort  = $config["rk_port"];
 $rkUser  = $config["rk_user"];
@@ -19,118 +29,6 @@ $genesis_block_miner = $config["genesis-miner"];
 $genesis_miner_tx_id = $config["genesis-miner-tx-id"];
 $genesis_difficulty = $config["difficulty"];
 $genesis_hash_rate = $config["hash-rate"];
-$latest_block = getInfo();
-$info = getblock($latest_block);
-$latest_tx_count = $info[0];
-$latest_difficulty = $info[1];
-$latest_miner = $info[2];
-$latest_block_time = $info[3];
-$block_fee = $info[4];
-$latest_block_size = $info[5];
-$latest_data_items = $info[6];
-$latest_miner_tx_id = $info[7];
-$latest_block_data_size = $info[8];
-$dir = $config["dir"];
-
-$pending_tx = getPendingTransactions();
-$xrk_supply = $premined_tokens+ $latest_block*$mining_reward;
-$stream_info = listStreams();
-$streams_items = $stream_info[1];
-$total_streams = $stream_info[0];
-$total_addresses = listAddresses();
-$total_miners = totalMiners();
-
-$blockchain_size = rkSize($dir);
-
-try {
-    $connectionString =  "mysql:host=". $dbHost."; dbname=".$dbName.";";
-    $pdo = new PDO($connectionString , $dbUser, $dbPwd);
-    $pdo-> setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    if ($pdo != NULL) {
-        $sql = "SELECT COUNT(id) FROM block_info";
-        $sth  = $pdo->prepare($sql);
-        $sth->execute();
-        $row   = $sth->fetch();
-        $count = $row[0];
-        if ($count == 0) {
-            $sql = "INSERT INTO block_info(best_block, block_time, block_size, time_diff, miner, miner_tx_id, txcount, data_items, data_size, difficulty, hash_rate, fee)
-                              VALUES (0, '$genesis_block_time', 245, 0, '$genesis_block_miner', '$genesis_miner_tx_id', 1 , 0, 0, '$genesis_difficulty', '$genesis_hash_rate', 0)";
-            $sth  = $pdo->prepare($sql);
-            $sth->execute();
-            } else {
-                    $sql2 = 'SELECT best_block FROM block_info WHERE best_block=(SELECT max(best_block) FROM block_info)';
-                    $sth  = $pdo->prepare($sql2);
-                    $sth->execute();
-                    $row        = $sth->fetch();
-                    $last_block = $row[0];
-                    $block_diff = $latest_block - $last_block;
-                    for ($i = 1; $i <= $block_diff; $i++) {
-                        $last_block = $last_block + 1;
-                        $block_info = getblock($last_block);
-                        print_r($block_info);
-                     
-                        $sql3 = 'SELECT block_time FROM block_info WHERE id=(SELECT max(id) FROM block_info)';
-                            $sth  = $pdo->prepare($sql3);
-                            $sth->execute();
-                            $row             = $sth->fetch();
-                            $last_block_time = $row[0];
-                            $block_time = $block_info[3];
-                            $time_diff       = $block_time - $last_block_time;
-                            $tx_count = $block_info[0];
-                            $difficulty = $block_info[1];
-                            $miner = $block_info[2];
-                            $fee = $block_info[4];
-                            $block_size = $block_info[5];
-                            $block_items = $block_info[6];
-                            $miner_tx_id = $block_info[7];
-                            $data_size = $block_info[8];
-                            $sql = 'SELECT AVG(time_diff) FROM block_info';
-                            $sth  = $pdo->prepare($sql);
-                            $sth->execute();
-                            $row = $sth->fetch();
-                            $avg_time = $row[0];
-                            $hash_rate = $difficulty/$avg_time;
-                            $sql4 = "INSERT INTO block_info(best_block, block_time, block_size, time_diff, miner, miner_tx_id, txcount, data_items, data_size, difficulty, hash_rate, fee)
-                              VALUES ('$last_block', '$block_time', '$block_size', '$time_diff', '$miner', '$miner_tx_id', '$tx_count','$block_items', '$data_size', '$difficulty','$hash_rate', '$fee')";
-                            $sth = $pdo->prepare($sql4);
-                            $sth->execute();
-
-                    } 
-
-                     $sql5 = "SELECT COUNT(DISTINCT(miner)) FROM `block_info` ORDER BY id DESC LIMIT 1000";
-                            $sth = $pdo->prepare($sql5);
-                            $sth->execute();
-                            $row = $sth->fetch();
-                            $active_miners = $row[0];
-                }
-
-        $sql6 = "SELECT COUNT(id) FROM dynamic_values";
-        $sth  = $pdo->prepare($sql6);
-        $sth->execute();
-        $row   = $sth->fetch();
-        $count = $row[0];
-        if ($count == 0) {
-            $sql7 = "INSERT INTO dynamic_values(xrk_supply, blockchain_size, stream_items, total_addresses, total_miners, pending_tx, active_miners, total_streams)
-                              VALUES ('$xrk_supply', '$blockchain_size', '$streams_items', '$total_addresses', '$total_miners' , '$pending_tx', '$active_miners', '$total_streams')";
-            $sth  = $pdo->prepare($sql7);
-            $sth->execute();
-            }
-        else {
-             $sql8 = "UPDATE dynamic_values SET xrk_supply = '$xrk_supply', blockchain_size= '$blockchain_size', stream_items = '$streams_items', total_addresses = '$total_addresses', pending_tx = '$pending_tx', active_miners= '$active_miners', total_streams= '$total_streams' WHERE id=1"; 
-             $sth  = $pdo->prepare($sql8);
-            $sth->execute();
-        }
-    }
-    $sth = null;
-    $pdo = null;
-}
-
-catch (Exception $e) {
-    error_log("ERROR:couldn't connect" . $e->getMessage());
-}
-catch (PDOException $e) {
-    error_log("ERROR: couldn't insert" . $e->getMessage());
-}
 
 function getInfo(){
 $curl = curl_init();
@@ -423,5 +321,128 @@ function rkSize ($dir)
 
     $rk_size = ($size /100000);
     return $rk_size;
+  }
+
+$latest_block = getInfo();
+$info = getblock($latest_block);
+$latest_tx_count = $info[0];
+$latest_difficulty = $info[1];
+$latest_miner = $info[2];
+$latest_block_time = $info[3];
+$block_fee = $info[4];
+$latest_block_size = $info[5];
+$latest_data_items = $info[6];
+$latest_miner_tx_id = $info[7];
+$latest_block_data_size = $info[8];
+$dir = $config["dir"];
+
+$pending_tx = getPendingTransactions();
+$xrk_supply = $premined_tokens+ $latest_block*$mining_reward;
+$stream_info = listStreams();
+$streams_items = $stream_info[1];
+$total_streams = $stream_info[0];
+$total_addresses = listAddresses();
+$total_miners = totalMiners();
+
+$blockchain_size = rkSize($dir);
+
+try {
+    $connectionString =  "mysql:host=". $dbHost."; dbname=".$dbName.";";
+    $pdo = new PDO($connectionString , $dbUser, $dbPwd);
+    $pdo-> setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    if ($pdo != NULL) {
+        $sql = "SELECT COUNT(id) FROM block_info";
+        $sth  = $pdo->prepare($sql);
+        $sth->execute();
+        $row   = $sth->fetch();
+        $count = $row[0];
+        if ($count == 0) {
+            $sql = "INSERT INTO block_info(best_block, block_time, block_size, time_diff, miner, miner_tx_id, txcount, data_items, data_size, difficulty, hash_rate, fee)
+                              VALUES (0, '$genesis_block_time', 245, 0, '$genesis_block_miner', '$genesis_miner_tx_id', 1 , 0, 0, '$genesis_difficulty', '$genesis_hash_rate', 0)";
+            $sth  = $pdo->prepare($sql);
+            $sth->execute();
+            } else {
+                    $sql2 = 'SELECT best_block FROM block_info WHERE best_block=(SELECT max(best_block) FROM block_info)';
+                    $sth  = $pdo->prepare($sql2);
+                    $sth->execute();
+                    $row        = $sth->fetch();
+                    $last_block = $row[0];
+                    $block_diff = $latest_block - $last_block;
+                    for ($i = 1; $i <= $block_diff; $i++) {
+                        $last_block = $last_block + 1;
+                        $block_info = getblock($last_block);
+                        print_r($block_info);
+                     
+                        $sql3 = 'SELECT block_time FROM block_info WHERE id=(SELECT max(id) FROM block_info)';
+                            $sth  = $pdo->prepare($sql3);
+                            $sth->execute();
+                            $row             = $sth->fetch();
+                            $last_block_time = $row[0];
+                            $block_time = $block_info[3];
+                            $time_diff       = $block_time - $last_block_time;
+                            $tx_count = $block_info[0];
+                            $difficulty = $block_info[1];
+                            $miner = $block_info[2];
+                            $fee = $block_info[4];
+                            $block_size = $block_info[5];
+                            $block_items = $block_info[6];
+                            $miner_tx_id = $block_info[7];
+                            $data_size = $block_info[8];
+                            $sql = 'SELECT AVG(time_diff) FROM block_info';
+                            $sth  = $pdo->prepare($sql);
+                            $sth->execute();
+                            $row = $sth->fetch();
+                            $avg_time = $row[0];
+                            $hash_rate = $difficulty/$avg_time;
+                            $sql4 = "INSERT INTO block_info(best_block, block_time, block_size, time_diff, miner, miner_tx_id, txcount, data_items, data_size, difficulty, hash_rate, fee)
+                              VALUES ('$last_block', '$block_time', '$block_size', '$time_diff', '$miner', '$miner_tx_id', '$tx_count','$block_items', '$data_size', '$difficulty','$hash_rate', '$fee')";
+                            $sth = $pdo->prepare($sql4);
+                            $sth->execute();
+
+                    } 
+
+                     $sql5 = "SELECT COUNT(DISTINCT(miner)) FROM `block_info` ORDER BY id DESC LIMIT 1000";
+                            $sth = $pdo->prepare($sql5);
+                            $sth->execute();
+                            $row = $sth->fetch();
+                            $active_miners = $row[0];
+                }
+
+        $sql6 = "SELECT COUNT(id) FROM dynamic_values";
+        $sth  = $pdo->prepare($sql6);
+        $sth->execute();
+        $row   = $sth->fetch();
+        $count = $row[0];
+        if ($count == 0) {
+            $sql7 = "INSERT INTO dynamic_values(xrk_supply, blockchain_size, stream_items, total_addresses, total_miners, pending_tx, active_miners, total_streams)
+                              VALUES ('$xrk_supply', '$blockchain_size', '$streams_items', '$total_addresses', '$total_miners' , '$pending_tx', '$active_miners', '$total_streams')";
+            $sth  = $pdo->prepare($sql7);
+            $sth->execute();
+            }
+        else {
+             $sql8 = "UPDATE dynamic_values SET xrk_supply = '$xrk_supply', blockchain_size= '$blockchain_size', stream_items = '$streams_items', total_addresses = '$total_addresses', pending_tx = '$pending_tx', active_miners= '$active_miners', total_streams= '$total_streams' WHERE id=1"; 
+             $sth  = $pdo->prepare($sql8);
+            $sth->execute();
+        }
+
+        $myfile = fopen("stats.txt", "w") or die("Unable to open file!");
+        $txt = "Completed";
+        fwrite($myfile, $txt);
+        fclose($myfile);
+        
+    }
+    $sth = null;
+    $pdo = null;
+}
+
+catch (Exception $e) {
+    error_log("ERROR:couldn't connect" . $e->getMessage());
+}
+catch (PDOException $e) {
+    error_log("ERROR: couldn't insert" . $e->getMessage());
+ }
+ 
+} else {
+    fclose($myfile);
 }
 ?>
