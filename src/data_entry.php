@@ -1,18 +1,36 @@
 <?php
-$myfile = fopen("stats.txt", "r") or die("Unable to open file!");
+
+function isProcessRunning($lockFile) {
+    $myfile = fopen($lockFile, "r") or die("Unable to open ".$lockFile." file!");
 $status = fgets($myfile);
 $length = strlen($status);
 if($length > 6){
-    $myfile = fopen("stats.txt", "w") or die("Unable to open file!");
-    $txt = "";
-fwrite($myfile, $txt);
+    $running = 0;
+} else {
+    $running = 1;
+   }
+return $running;
+ }
+
+function writeFile($lockFile, $text) {
+  $myfile = fopen($lockFile, "w") or die("Unable to open ".$lockFile." file!"); 
+  fwrite($myfile, $text); 
+}
+
 // load config
   if ($argv[1] == "test") {
   $config = include('config-testnet.php'); 
+  $file = $config["lock-file"];
+  $isRunning = isProcessRunning($file);
   }
 else {
     $config = include('config-mainnet.php');
+    $file = $config["lock-file"];
+    $isRunning = isProcessRunning($file);
    } 
+
+if($isRunning == 0){ // proceed only if script is not running already
+writeFile($file, "");
 $rkHost  = $config["rk_host"];
 $rkPort  = $config["rk_port"];
 $rkUser  = $config["rk_user"];
@@ -424,11 +442,8 @@ try {
              $sth  = $pdo->prepare($sql8);
             $sth->execute();
         }
-
-        $myfile = fopen("stats.txt", "w") or die("Unable to open file!");
-        $txt = "Completed";
-        fwrite($myfile, $txt);
-        fclose($myfile);
+        
+        writeFile($file, "completed");
         
     }
     $sth = null;
@@ -440,9 +455,10 @@ catch (Exception $e) {
 }
 catch (PDOException $e) {
     error_log("ERROR: couldn't insert" . $e->getMessage());
- }
- 
+ } 
+
 } else {
-    fclose($myfile);
+    fclose($file);
+    echo "Script already running.";
 }
 ?>
