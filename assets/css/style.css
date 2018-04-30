@@ -36,9 +36,9 @@
 }
 
 #logo img{
-	    width: 275px;
-    margin-top: 7px;
-    margin-left: 15px;
+	      width: 260px;
+    margin-top: 12px;
+    margin-left: 21px;
 }
 .se-pre-con {
     position: fixed;
@@ -83,7 +83,7 @@
 }
 #togglecontlabel{
        float: right;
-    margin-left: 8px;
+    margin-left: 14px;
     margin-top: 7px;
     font-size: 15px;
     color: #fff;
@@ -104,8 +104,8 @@
 .tgl + .tgl-btn {
  outline: 0;
     display: block;
-    width: 5.4em;
-    height: 2.5em;
+    width: 6.2em;
+    height: 3.2em;
     position: relative;
     cursor: pointer;
     -webkit-user-select: none;
@@ -356,12 +356,14 @@ i.fas.fa-hourglass-half.font30, i.fas.fa-hashtag.font30, i.fas.fa-list-ul.font30
 #togglecontlabel {
     font-size: 15px;
     font-weight: 400;
-    margin-top: 5px;
+    margin-top: 7px;
 }
 .font30{
     font-size: 30px;
 }
 body {
+  font-family: 'Lato', sans-serif !important;
+
     min-height: 100%;
     background: #ecf1f5;
     font-size: 62.5%;

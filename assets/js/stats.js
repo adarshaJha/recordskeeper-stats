@@ -236,7 +236,7 @@ function switchNetwork(network) {
     }
 
     var networkColor = network === "test" ? testNetColor : mainNetColor;
-    var networkLabel = network === "test" ? "TestNetwork" : "MainNetwork";
+    var networkLabel = network === "test" ? "Test Network" : "Main Network";
     var cbChecked = network === "test" ? false : true;
 
     createCookie("rk-network",network,365);

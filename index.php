@@ -41,6 +41,7 @@ else {
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
     <link href = "assets/css/style.css" rel="stylesheet">
     <link href="https://use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Lato:100,100i,300,300i,400,400i,700,700i,900,900i" rel="stylesheet">
   </head>
 
   <body>
@@ -51,7 +52,7 @@ else {
  <!-- header here  -->
    			<header id="top">
 				<p id="logo">
-					<img src="assets/images/logo.png">
+					<img src="assets/images/logo.svg">
 				</p>
 				<nav id="nav">
                     <ul>                     
@@ -60,7 +61,7 @@ else {
                            <label class="tgl-btn" for="cb1"></label>
                         </div>
                         <span >
-                            <label id="togglecontlabel">MainNet</label>
+                            <label id="togglecontlabel">Main Network</label>
                         </span>
                     </ul>                
                 </nav>	
