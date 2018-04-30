@@ -475,6 +475,49 @@ body, textarea, input, select, option, button {
 
 
 
+#content:after, #top:after, #footer:after, form p:after, .cols-a:after, #nav:after, #nav > ul:after, #nav > ul > li > a:after, #heading:after, #heading > ul:after, .tabs-a > ul:after, #footer ul:after, .tabs-a > div:after, .double:after, .list-inline:after, .quadruple:after, .popup-a .box-inset:after, .module-box:after, .gallery-a:after, .link-btn:after, .list-a ul:after, .list-inline li:after, .list-inline form:after, .list-inline p:after, .list-charts figure:after {
+    content: "";
+    display: block;
+    overflow: hidden;
+    clear: both;
+    height: 0;
+}
+*, *:before, *:after {
+    -webkit-transition: visibility .2s ease-in-out 0s, color .2s ease-in-out 0s, background-color .2s ease-in-out 0s, color .2s ease-in-out 0s, border-color .2s ease-in-out 0s, color .2s ease-in-out 0s, opacity .2s ease-in-out 0s;
+    transition: visibility .2s ease-in-out 0s, color .2s ease-in-out 0s, background-color .2s ease-in-out 0s, color .2s ease-in-out 0s, border-color .2s ease-in-out 0s, color .2s ease-in-out 0s, opacity .2s ease-in-out 0s;
+    -webkit-transform-origin: center center;
+    -ms-transform-origin: center center;
+    -webkit-transition-delay: -0.1s;
+}
+.hidden, [hidden], template, #nav em, .js #heading ul li label input, #footer ul li:last-child:before, #nav > ul > li > ul li.a a:before, #mobile em, #mobile i, .checklist-pin label input, .file-a label input, .check-a label input, #aside a span, .list-inline form.toggle a.toggle, .list-inline label {
+    position: absolute;
+    left: -3000em;
+    top: 0;
+    right: auto;
+    bottom: auto;
+}
+
+
+
+*, *:before, *:after {
+    -webkit-transition: visibility .2s ease-in-out 0s, color .2s ease-in-out 0s, background-color .2s ease-in-out 0s, color .2s ease-in-out 0s, border-color .2s ease-in-out 0s, color .2s ease-in-out 0s, opacity .2s ease-in-out 0s;
+    transition: visibility .2s ease-in-out 0s, color .2s ease-in-out 0s, background-color .2s ease-in-out 0s, color .2s ease-in-out 0s, border-color .2s ease-in-out 0s, color .2s ease-in-out 0s, opacity .2s ease-in-out 0s;
+    -webkit-transform-origin: center center;
+    -ms-transform-origin: center center;
+    -webkit-transition-delay: -0.1s;
+}
+
+ #footer ul { overflow: hidden; list-style: none; margin-right: 0px; padding: 0; width: 89%;
+    margin: auto; }
+ #footer ul li { position: relative; float: left; margin: 0 16px 0 0; }
+ #footer ul li:before { content: "|"; display: block; position: absolute; left: 100%; top: 0; width: 16px; text-align: center; }
+#footer a { color: #7f91a3; }
+
+
+
+
+
+
 
 
 
