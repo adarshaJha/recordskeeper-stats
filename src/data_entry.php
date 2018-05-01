@@ -412,6 +412,7 @@ try {
                               VALUES ('$last_block', '$block_time', '$block_size', '$time_diff', '$avg_block_time', '$miner', '$miner_tx_id', '$total_miners', '$tx_count','$block_items', '$data_size', '$difficulty','$hash_rate', '$fee')";
                             $sth = $pdo->prepare($sql4);
                             $sth->execute();
+                            error_log("Updating block ".$last_block);
 
                     } 
 
@@ -437,6 +438,7 @@ try {
              $sql8 = "UPDATE dynamic_values SET xrk_supply = '$xrk_supply', blockchain_size= '$blockchain_size', stream_items = '$streams_items', total_addresses = '$total_addresses', total_miners = '$total_miners', pending_tx = '$pending_tx', active_miners= '$active_miners', total_streams= '$total_streams' WHERE id=1"; 
              $sth  = $pdo->prepare($sql8);
             $sth->execute();
+            error_log("Updated dynamic_values");
         }
         
         writeFile($file, "completed");
