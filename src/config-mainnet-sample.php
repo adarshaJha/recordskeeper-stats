@@ -18,5 +18,6 @@ return array(
    "difficulty"=> 0.06249911,
    "hash-rate" => 0.00416661,
    "lock-file" => "mainnet-lock.txt",
+   "access-key" => "ipstack_access_key",
    "genesis-timestamp" => 1522837825
 );
