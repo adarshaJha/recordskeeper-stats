@@ -29,7 +29,7 @@
 
     <nav class="site-header sticky-top py-1">
       <div class="float-left">
-        <a class="py-2 d-md-inline-block" href="#"><img src="icons/logo.svg" class="logosvg"></a>
+        <a class="py-2 d-md-inline-block" href="#"><img src="./icons/logo.svg" class="logosvg"></a>
       </div>
         <div style="margin-top: 15px">
         <div class="labelnetwrk">Main Network</div>
@@ -49,7 +49,7 @@
           <div class="col-md-2 col-sm-12 col-lg-2 float-left flotablediv">
               <div class="widgetblock">
                   <div class="widget-icon">
-                      <span><img src="icons/icon1.svg"></span>
+                      <span><img src="./icons/icon1.svg"></span>
                   </div>
                   <div class="widgettext">
                   <span class="labelwid">AVG. RECORDS PUBLISHED</span>
@@ -61,7 +61,7 @@
             <div class="col-md-2 col-sm-12 col-lg-2 float-left flotablediv">
               <div class="widgetblock">
                   <div class="widget-icon">
-                      <span><img src="icons/icon2.svg"></span>
+                      <span><img src="./icons/icon2.svg"></span>
                   </div>
                   <div class="widgettext">
                   <span class="labelwid">TOTAL RECORDS PUBLISHED</span>
@@ -73,7 +73,7 @@
              <div class="col-md-2 col-sm-12 col-lg-2 float-left flotablediv">
               <div class="widgetblock">
                   <div class="widget-icon">
-                      <span><img src="icons/icon3.svg"></span>
+                      <span><img src="./icons/icon3.svg"></span>
                   </div>
                    <div class="widgettext">
                   <span class="labelwid">TOTAL ADDRESSES</span>
@@ -85,7 +85,7 @@
               <div class="col-md-2 col-sm-12 col-lg-2 float-left flotablediv">
               <div class="widgetblock">
                   <div class="widget-icon">
-                      <span><img src="icons/icon4.svg"></span>
+                      <span><img src="./icons/icon4.svg"></span>
                   </div>
                    <div class="widgettext">
                   <span class="labelwid">AVG. DATA PUBLISHED</span>
@@ -97,7 +97,7 @@
               <div class="col-md-2 col-sm-12 col-lg-2 float-left flotablediv">
               <div class="widgetblock">
                   <div class="widget-icon">
-                      <span><img src="icons/icon5.svg"></span>
+                      <span><img src="./icons/icon5.svg"></span>
                   </div>
                   <div class="widgettext">
                   <span class="labelwid yellow">ACTIVE MINERS</span>
@@ -109,7 +109,7 @@
                <div class="col-md-2 col-sm-12 col-lg-2 float-left flotablediv">
               <div class="widgetblock">
                   <div class="widget-icon">
-                      <span><img src="icons/icon6.svg"></span>
+                      <span><img src="./icons/icon6.svg"></span>
                   </div>
                   <div class="widgettext">
                   <span class="labelwid green">TOTAL XRX MINED</span>
@@ -128,7 +128,7 @@
           <div class="col-md-3 col-sm-12 col-lg-3 float-left flotablediv">
               <div class="widgetblock seperator">
                   <div class="widget-icon">
-                      <span><img src="icons/icon7.svg"></span>
+                      <span><img src="./icons/icon7.svg"></span>
                   </div>
                   <div class="widgettext">
                   <span class="labelwid green">BEST BLOCK</span>
@@ -138,7 +138,7 @@
                   </div>
               <div class="widgetblock">
                   <div class="widget-icon">
-                      <span><img src="icons/icon11.svg"></span>
+                      <span><img src="./icons/icon11.svg"></span>
                   </div>
                   <div class="widgettext">
                   <span class="labelwid">AVG. RECORDS PUBLISHED</span>
@@ -152,7 +152,7 @@
             <div class="col-md-3 col-sm-12 col-lg-3 float-left flotablediv">
               <div class="widgetblock seperator">
                   <div class="widget-icon">
-                      <span><img src="icons/icon8.svg"></span>
+                      <span><img src="./icons/icon8.svg"></span>
                   </div>
                   <div class="widgettext">
                   <span class="labelwid green">LAST BLOCK</span>
@@ -163,7 +163,7 @@
                   </div>
                  <div class="widgetblock"> 
                   <div class="widget-icon">
-                      <span><img src="icons/icon12.svg"></span>
+                      <span><img src="./icons/icon12.svg"></span>
                   </div>
                       <div class="widgettext">
                   <span class="labelwid">AVG. DATA PUBLISHED</span>
@@ -176,7 +176,7 @@
              <div class="col-md-3 col-sm-12 col-lg-3 float-left flotablediv">
               <div class="widgetblock seperator">
                   <div class="widget-icon">
-                      <span><img src="icons/icon9.svg"></span>
+                      <span><img src="./icons/icon9.svg"></span>
                   </div>
                   <div class="widgettext">
                   <span class="labelwid">AVG. BLOCK TIME</span>
@@ -187,7 +187,7 @@
                   </div>
                   <div class="widgetblock">
                   <div class="widget-icon">
-                      <span><img src="icons/icon13.svg"></span>
+                      <span><img src="./icons/icon13.svg"></span>
                   </div>
                       <div class="widgettext">
                   <span class="labelwid">MEDIAN BLOCK SIZE</span>
@@ -201,7 +201,7 @@
               <div class="col-md-3 col-sm-12 col-lg-3 float-left flotablediv">
               <div class="widgetblock seperator">
                   <div class="widget-icon">
-                      <span><img src="icons/icon10.svg"></span>
+                      <span><img src="./icons/icon10.svg"></span>
                   </div>
                   <div class="widgettext">
                   <span class="labelwid">MAX BLOCK SIZE</span>
@@ -228,7 +228,7 @@
           <div class="col-md-3 col-sm-12 col-lg-3 float-left flotablediv">
               <div class="widgetblock">
                   <div class="widget-icon">
-                      <span><img src="icons/icon14.svg"></span>
+                      <span><img src="./icons/icon14.svg"></span>
                   </div>
                   <div class="widgettext">
                   <span class="labelwid purple">TRANSACTION FEES</span>
@@ -241,7 +241,7 @@
             <div class="col-md-3 col-sm-12 col-lg-3 float-left flotablediv">
               <div class="widgetblock">
                   <div class="widget-icon">
-                      <span><img src="icons/icon15.svg"></span>
+                      <span><img src="./icons/icon15.svg"></span>
                   </div>
                    <div class="widgettext">
                   <span class="labelwid green">TOTAL TRANSACTION</span>
@@ -254,7 +254,7 @@
              <div class="col-md-3 col-sm-12 col-lg-3 float-left flotablediv">
               <div class="widgetblock">
                   <div class="widget-icon">
-                      <span><img src="icons/icon16.svg"></span>
+                      <span><img src="./icons/icon16.svg"></span>
                   </div>
                   <div class="widgettext">
                   <span class="labelwid green">PENDING TRANSACTION</span>
@@ -267,7 +267,7 @@
               <div class="col-md-3 col-sm-12 col-lg-3 float-left flotablediv">
               <div class="widgetblock">
                   <div class="widget-icon">
-                      <span><img src="icons/icon17.svg"></span>
+                      <span><img src="./icons/icon17.svg"></span>
                   </div>
                   <div class="widgettext">
                   <span class="labelwid green">MAX TRANSACTION SIZE</span>
@@ -446,13 +446,13 @@
 						<table>
 							<thead>
 								<tr class="row100 head">
-									<th class="cell100 column1"><img src="icons/tableicon1.svg"></th>
-									<th class="cell100 column2"><img src="icons/tableicon2.svg"></th>
-									<th class="cell100 column3"><img src="icons/tableicon3.svg"></th>
-									<th class="cell100 column4"><img src="icons/tableicon_7.svg"></th>
-									<th class="cell100 column5"><img src="icons/tableicon_11.svg"></th>
-                                    <th class="cell100 column5"><img src="icons/tableicon4.svg"></th>
-                                    <th class="cell100 column5"><img src="icons/tableicon5.svg"></th>
+									<th class="cell100 column1"><img src="./icons/tableicon1.svg"></th>
+									<th class="cell100 column2"><img src="./icons/tableicon2.svg"></th>
+									<th class="cell100 column3"><img src="./icons/tableicon3.svg"></th>
+									<th class="cell100 column4"><img src="./icons/tableicon_7.svg"></th>
+									<th class="cell100 column5"><img src="./icons/tableicon_11.svg"></th>
+                                    <th class="cell100 column5"><img src="./icons/tableicon4.svg"></th>
+                                    <th class="cell100 column5"><img src="./icons/tableicon5.svg"></th>
 								</tr>
                                 <tr class="row100 head namingheding">
 									<th class="cell100 column1">Miner Name</th>
