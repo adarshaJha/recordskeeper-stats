@@ -45,7 +45,7 @@
       <div class="row">
           
           <div class="col-md-12 col-sm-12 col-lg-12 main-row">
-              <div class="widgetheading">Blackchain Stats</div>
+              <div class="widgetheading">Blockchain Stats</div>
           <div class="col-md-2 col-sm-12 col-lg-2 float-left flotablediv">
               <div class="widgetblock">
                   <div class="widget-icon">
@@ -124,7 +124,7 @@
       <div class="row">
           
           <div class="col-md-12 col-sm-12 col-lg-12">
-              <div class="widgetheading col-md-12 border-right">Black Stats</div>
+              <div class="widgetheading col-md-12 border-right">Block Stats</div>
           <div class="col-md-3 col-sm-12 col-lg-3 float-left flotablediv">
               <div class="widgetblock seperator">
                   <div class="widget-icon">
