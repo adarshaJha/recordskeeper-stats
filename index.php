@@ -446,13 +446,13 @@
 						<table>
 							<thead>
 								<tr class="row100 head">
-									<th class="cell100 column1"><img src="./icons/tableicon1.svg"></th>
-									<th class="cell100 column2"><img src="./icons/tableicon2.svg"></th>
-									<th class="cell100 column3"><img src="./icons/tableicon3.svg"></th>
-									<th class="cell100 column4"><img src="./icons/tableicon_7.svg"></th>
-									<th class="cell100 column5"><img src="./icons/tableicon_11.svg"></th>
-                                    <th class="cell100 column5"><img src="./icons/tableicon4.svg"></th>
-                                    <th class="cell100 column5"><img src="./icons/tableicon5.svg"></th>
+									<th class="cell100 column1"><img src="images/tableicon1.svg"></th>
+									<th class="cell100 column2"><img src="images/tableicon2.svg"></th>
+									<th class="cell100 column3"><img src="images/tableicon3.svg"></th>
+									<th class="cell100 column4"><img src="images/tableicon_7.svg"></th>
+									<th class="cell100 column5"><img src="images/tableicon_11.svg"></th>
+                                    <th class="cell100 column5"><img src="images/tableicon4.svg"></th>
+                                    <th class="cell100 column5"><img src="images/tableicon5.svg"></th>
 								</tr>
                                 <tr class="row100 head namingheding">
 									<th class="cell100 column1">Miner Name</th>
